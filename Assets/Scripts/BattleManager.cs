@@ -21,6 +21,7 @@ public class BattleManager : MonoBehaviour
 
 
             activeEnemies[i].transform.position = spawnLocations[Random.Range(0, spawnLocations.Length)].transform.position;
+
             //takenLocations[i] = spawnLocations
         }
 

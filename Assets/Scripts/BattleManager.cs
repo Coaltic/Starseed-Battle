@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour
     void Awake()
     {
         enemySpawnNumber = Random.Range(0, spawnLocations.Length);
+        activeEnemies[] = new GameObject[(enemySpawnNumber - 1);
         
 
         for (int i = 0; i < enemySpawnNumber; i++)

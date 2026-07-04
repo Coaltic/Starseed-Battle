@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
@@ -6,13 +7,14 @@ public class BattleManager : MonoBehaviour
     public GameObject[] spawnLocations;
     public GameObject[] activeEnemies;
     public GameObject[] takenLocations;
+    public int enemyIDNumber;
     public int enemySpawnNumber;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
    
     void Awake()
     {
         enemySpawnNumber = Random.Range(0, spawnLocations.Length);
+        enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
         activeEnemies[] = new GameObject[(enemySpawnNumber - 1);
         
 

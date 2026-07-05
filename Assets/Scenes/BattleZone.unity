@@ -1554,9 +1554,9 @@ MonoBehaviour:
   - {fileID: 236511524}
   - {fileID: 187013745}
   - {fileID: 29225863}
-  activeEnemies:
-  - {fileID: 0}
+  activeEnemies: []
   takenLocations: []
+  enemyIDNumber: 0
   enemySpawnNumber: 0
 --- !u!4 &1855811548
 Transform:

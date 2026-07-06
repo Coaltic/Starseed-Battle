@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4601055263675329382}
   - component: {fileID: 6558516437066959502}
+  - component: {fileID: -7733375573016136832}
   m_Layer: 0
   m_Name: Slime_A
   m_TagString: Enemy
@@ -91,3 +92,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &-7733375573016136832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479735766909479439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dc8b2c5d7a5c154a9a1d3e2546426fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Slime_AI
+  health: 0
+  mp: 0
+  strengthStat: 0
+  magicStat: 0
+  physicalDefenseStat: 0
+  magicDefenseStat: 0
+  speedStat: 0
+  luckStat: 0
+  movementStat: 0
+  myTurn: 0
+  currentLocationTile: {fileID: 0}

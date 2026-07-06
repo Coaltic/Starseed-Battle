@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     public int movementStat;
 
     public bool myTurn;
+    public MoveableTile currentLocationTile;
 
     void Start()
     {

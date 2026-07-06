@@ -5,7 +5,7 @@ public class BattleManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     // public GameObject[] spawnLocations;
-    public List<GameObject> spawnLocations;
+    //public List<GameObject> spawnLocations;
     public GameObject[] activeEnemies;
     public GameObject[] takenLocations;
     public int enemyIDNumber;
@@ -13,29 +13,35 @@ public class BattleManager : MonoBehaviour
 
     public int ranNum;
 
-   
-    void Awake()
+    public MoveableTileManager tileManager;
+
+    private void Awake()
     {
-        enemySpawnNumber = Random.Range(0, spawnLocations.Count);
-        // enemySpawnNumber = Random.Range(0, spawnLocations.Length);
+        tileManager = this.GetComponent<MoveableTileManager>();
+    }
+
+    void Start()
+    {
+        enemySpawnNumber = Random.Range(0, tileManager.enemyTiles.Length);
         enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
         activeEnemies = new GameObject[(enemySpawnNumber)];
-        // activeEnemies[] = new GameObject[(enemySpawnNumber - 1);
 
 
         for (int i = 0; i < enemySpawnNumber; i++)
         {
             activeEnemies[i] = Instantiate(enemyPrefabs[0]);
 
-            ranNum = Random.Range(0, spawnLocations.Count);
-            activeEnemies[i].transform.position = spawnLocations[ranNum].transform.position;
-            SpawnLocationUpdater();
+            // ranNum = Random.Range(0, tileManager.enemyTiles.Length);
 
-            //takenLocations[i] = spawnLocations
+            // activeEnemies[i].GetComponent<Enemy>().currentLocationTile = this.gameObject.GetComponent<MoveableTileManager>().enemyTiles[ranNum];
+            //tileManager.InitialEnemySpawn(activeEnemies[i].GetComponent<Enemy>());
+
+            Transform spawnLocation = tileManager.InitialEnemySpawn(activeEnemies[i].GetComponent<Enemy>());
+            SpawnEnemy(activeEnemies[i].GetComponent<Enemy>(), spawnLocation);
+            //activeEnemies[i].transform.position = spawnLocations[this.GetComponent<MoveableTileManager>().InitialEnemySpawn(activeEnemies[i].GetComponent<Enemy>())].transform.position;
+            // SpawnLocationUpdater();
+
         }
-
-        //GameObject enemy1 = Instantiate(enemyPrefabs[0]);
-        //enemy1.transform.position = spawnLocations[Random.Range(0, spawnLocations.Length)].transform.position;
     }
 
     // Update is called once per frame
@@ -44,9 +50,14 @@ public class BattleManager : MonoBehaviour
         
     }
 
+    public void SpawnEnemy(Enemy enemy, Transform enemyPosition)
+    {
+        enemy.transform.position = enemyPosition.position;
+    }
+
     
 
-    void TileAvailabilityCheck()
+    /*void TileAvailabilityCheck()
     {
         int newRanNum = Random.Range(0, spawnLocations.Count);
         
@@ -57,5 +68,5 @@ public class BattleManager : MonoBehaviour
     void SpawnLocationUpdater()
     {
         spawnLocations.Remove(spawnLocations[ranNum]);
-    }
+    }*/
 }

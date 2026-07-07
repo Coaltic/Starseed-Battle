@@ -33,10 +33,19 @@ public class MoveableTileManager : MonoBehaviour
         {
             enemyTiles[i] = GameObject.Find("Tile Locations/Enemy Tile Locations").gameObject.transform.GetChild(i).gameObject.GetComponent<MoveableTile>();
         }
+
+        int playerTileCount = GameObject.Find("Tile Locations/Hero Tile Locations").gameObject.transform.childCount;
+
+        playerTiles = new MoveableTile[playerTileCount];
+
+        for (int i = 0; i < playerTileCount; i++)
+        {
+            playerTiles[i] = GameObject.Find("Tile Locations/Hero Tile Locations").gameObject.transform.GetChild(i).gameObject.GetComponent<MoveableTile>();
+        }
     }
 
     // Spawns wave of enemies for the battle
-    public void InitialEnemySpawn(Enemy enemy)
+    public void SetEnemySpawnLocation(Enemy enemy)
     {
         for (int i = 0; i < enemyTiles.Length; i++)
         {
@@ -48,6 +57,23 @@ public class MoveableTileManager : MonoBehaviour
                 enemy.currentLocationTile = enemyTiles[randomLocation];
                 enemyTiles[randomLocation].taken = true;
                 SetEnemyRenderLevel(enemy);
+                i = enemyTiles.Length;
+            }
+        }
+    }
+
+    public void SetHeroSpawnLocation(Player player)
+    {
+        for (int i = 0; i < playerTiles.Length; i++)
+        {
+
+            int randomLocation = Random.Range(0, playerTiles.Length);
+
+            if (playerTiles[randomLocation].taken == false)
+            {
+                player.currentLocationTile = playerTiles[randomLocation];
+                playerTiles[randomLocation].taken = true;
+                SetHeroRenderLevel(player);
                 i = enemyTiles.Length;
             }
         }
@@ -70,6 +96,26 @@ public class MoveableTileManager : MonoBehaviour
         if (enemy.currentLocationTile == enemyTiles[6] || enemy.currentLocationTile == enemyTiles[7] || enemy.currentLocationTile == enemyTiles[8])
         {
             enemy.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            //enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 2, enemy.transform.localScale.y / 2);
+
+        }
+    }
+
+    public void SetHeroRenderLevel(Player hero)
+    {
+        if (hero.currentLocationTile == playerTiles[0] || hero.currentLocationTile == playerTiles[1] || hero.currentLocationTile == playerTiles[2])
+        {
+            hero.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            hero.transform.localScale = new Vector3(hero.transform.localScale.x / 2, hero.transform.localScale.y / 2);
+        }
+        if (hero.currentLocationTile == playerTiles[3] || hero.currentLocationTile == playerTiles[4] || hero.currentLocationTile == playerTiles[5])
+        {
+            hero.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            hero.transform.localScale = new Vector3(hero.transform.localScale.x / 1.5f, hero.transform.localScale.y / 1.5f);
+        }
+        if (hero.currentLocationTile == playerTiles[6] || hero.currentLocationTile == playerTiles[7] || hero.currentLocationTile == playerTiles[8])
+        {
+            hero.GetComponent<SpriteRenderer>().sortingOrder = 3;
             //enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 2, enemy.transform.localScale.y / 2);
 
         }

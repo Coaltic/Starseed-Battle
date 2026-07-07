@@ -1,32 +1,39 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using TMPro;
 
 public class GameplayMenuManager : MonoBehaviour
 {
     public MenuState menuState;
     public GameObject startButton;
-    public Button[] gameplayButtons;
-    public GameObject gameplayMenu;
+
+    public GameObject[] gameplayMenus;
+    public Button[] activeMenuButtons;
+    public GameObject gameplayMenuHUD;
     public EventSystem eventSystem;
+    public PlayerInventory playerInventory;
+
+    public List<GameObject> previousMenuScreensList = new List<GameObject>();
 
     public GameObject BattleManager;
+    public BattleManager _battleManager;
     // public TMP_Text startButtonText;
     // public GameObject _GameplayMenuManager;
 
     private void Awake()
     {
-        int gameplayButtonCount = gameplayMenu.gameObject.transform.childCount;
+        playerInventory = GameObject.Find("GameManager").gameObject.GetComponent<PlayerInventory>();
+        int gameplayButtonCount = gameplayMenuHUD.gameObject.transform.childCount;
 
-        gameplayButtons = new Button[gameplayButtonCount];
+        /*activeMenuButtons = new Button[gameplayButtonCount];
 
         for (int i = 0; i < gameplayButtonCount; i++)
         {
-            gameplayButtons[i] = gameplayMenu.gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
-        }
+            activeMenuButtons[i] = gameplayMenuHUD.gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
+        }*/
 
-        //eventSystem.firstSelectedGameObject = gameplayButtons[0].gameObject;
     }
     void Start()
     {
@@ -41,7 +48,7 @@ public class GameplayMenuManager : MonoBehaviour
         {
 
             case MenuState.NotYourTurn:
-                Debug.Log("State: Not your turn");
+                // Debug.Log("State: Not your turn");
 
                 break;
 
@@ -51,32 +58,32 @@ public class GameplayMenuManager : MonoBehaviour
                 break;
 
             case MenuState.Attack:
-                Debug.Log("State: Attack");
+                // Debug.Log("State: Attack");
 
                 break;
 
             case MenuState.Magic:
-                Debug.Log("State: Magic");
+               //  Debug.Log("State: Magic");
 
                 break;
 
             case MenuState.Item:
-                Debug.Log("State: Item");
+                // Debug.Log("State: Item");
 
                 break;
 
             case MenuState.Defend:
-                Debug.Log("State: Defend");
+                // Debug.Log("State: Defend");
 
                 break;
 
             case MenuState.SwapCharacter:
-                Debug.Log("State: Swap Character");
+                // Debug.Log("State: Swap Character");
 
                 break;
 
             case MenuState.RunAway:
-                Debug.Log("State: Run Away");
+                // Debug.Log("State: Run Away");
 
                 break;
         }
@@ -89,19 +96,90 @@ public class GameplayMenuManager : MonoBehaviour
 
     public void OnButtonClicked(string btnName)
     {
-        Debug.Log(btnName + " Button: Clicked");
+        Debug.Log(btnName + " Button Clicked");
+    }
+
+    public void MakeBackButton(GameObject menu)
+    {
+        menu.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        menu.gameObject.transform.GetChild(0).gameObject.transform.GetComponentInChildren<TMP_Text>().text = "BACK";
+    }
+
+    public void OnClickBack()
+    {
+        ChangeMenuScreenBack(previousMenuScreensList[previousMenuScreensList.Count - 2], previousMenuScreensList[previousMenuScreensList.Count - 1]);
+    }
+
+    public void OnItemClick()
+    {
+        SwitchState(MenuState.Item);
+        MakeBackButton(gameplayMenus[3]);
+        for (int i = 0; i < playerInventory.inventoryItems.Count; i++)
+        {
+            
+            if (playerInventory.inventoryItems[i] != null)
+            {
+
+                gameplayMenus[3].gameObject.transform.GetChild(i + 1).gameObject.SetActive(true);
+                gameplayMenus[3].gameObject.transform.GetChild(i + 1).gameObject.transform.GetComponentInChildren<TMP_Text>().text = playerInventory.inventoryItems[i];
+                
+            }
+            else
+            {
+                // gameplayMenus[3].gameObject.SetActive(false);
+            }
+        }
+        ChangeMenuScreen(gameplayMenus[3], gameplayMenus[0]);
     }
 
     public void OnClickStart()
     {
         Destroy(startButton);
-        Instantiate(BattleManager);
-        eventSystem.firstSelectedGameObject = gameplayButtons[0].gameObject;
-        eventSystem.SetSelectedGameObject(gameplayButtons[0].gameObject);
-        gameplayMenu.gameObject.SetActive(true);
+        ChangeMenuScreen(gameplayMenus[0], null);
+        _battleManager =  Instantiate(BattleManager).GetComponent<BattleManager>();
+        // eventSystem.firstSelectedGameObject = activeMenuButtons[0].gameObject;
+        // eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
+        // gameplayMenuHUD.gameObject.SetActive(true);
         SwitchState(MenuState.Main);
         //eventSystem.firstSelectedGameObject = gameplayButtons[0].gameObject;
         
+    }
+
+    public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
+    {
+        Debug.Log("Changing Menu Back");
+        
+        previousMenuScreen.SetActive(false);
+        newMenuScreen.SetActive(true);
+        previousMenuScreensList.Remove(previousMenuScreen);
+        UpdateActiveMenuButtons(newMenuScreen);
+    }
+    public void ChangeMenuScreen(GameObject newMenuScreen, GameObject previousMenuScreen)
+    {
+        Debug.Log("Changing Menu");
+        if (previousMenuScreen != null)
+        {
+            previousMenuScreensList.Add(previousMenuScreen);
+            previousMenuScreensList.Add(newMenuScreen);
+            previousMenuScreen.SetActive(false);
+        }
+        newMenuScreen.SetActive(true);
+
+        activeMenuButtons = new Button[newMenuScreen.gameObject.transform.childCount];
+
+        UpdateActiveMenuButtons(newMenuScreen);
+
+
+    }
+
+    public void UpdateActiveMenuButtons(GameObject newMenuScreen)
+    {
+        for (int i = 0; i < newMenuScreen.gameObject.transform.childCount; i++)
+        {
+            activeMenuButtons[i] = newMenuScreen.gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
+        }
+
+        eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
     }
 }
 

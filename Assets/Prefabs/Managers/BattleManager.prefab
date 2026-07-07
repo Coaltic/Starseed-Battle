@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2068029061250692545}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12829, y: -0.04833, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,15 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b5080ad80ff44cb8b2a755a461671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  battleState: 0
   enemyPrefabs:
   - {fileID: 1479735766909479439, guid: 9181c6fea28c4a64893357f5141ac7ad, type: 3}
   - {fileID: 8814430098278941314, guid: a5cb7459e0db8d14ebcba7fab31bf3a0, type: 3}
+  playerPrefabs:
+  - {fileID: 6457946098215705587, guid: 1b97f42d33e57f04bba5834da4c70058, type: 3}
+  activePlayers: []
   activeEnemies: []
-  takenLocations: []
   enemyIDNumber: 0
   enemySpawnNumber: 0
-  ranNum: 0
-  tileManager: {fileID: 0}
+  _tileManager: {fileID: 0}
+  _gameplayMenuManager: {fileID: 0}
 --- !u!114 &3236758800859329892
 MonoBehaviour:
   m_ObjectHideFlags: 0

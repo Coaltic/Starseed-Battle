@@ -100,7 +100,7 @@ public class MoveableTileManager : MonoBehaviour
         if (enemy.currentLocationTile == enemyTiles[6] || enemy.currentLocationTile == enemyTiles[7] || enemy.currentLocationTile == enemyTiles[8])
         {
             enemy.GetComponent<SpriteRenderer>().sortingOrder = 3;
-            enemy.transform.localScale = enemy.standardScale;
+            // enemy.transform.localScale = enemy.standardScale;
 
         }
     }
@@ -120,7 +120,7 @@ public class MoveableTileManager : MonoBehaviour
         if (hero.currentLocationTile == playerTiles[6] || hero.currentLocationTile == playerTiles[7] || hero.currentLocationTile == playerTiles[8])
         {
             hero.GetComponent<SpriteRenderer>().sortingOrder = 3;
-            hero.transform.localScale = hero.standardScale;
+            // hero.transform.localScale = hero.standardScale;
 
         }
     }

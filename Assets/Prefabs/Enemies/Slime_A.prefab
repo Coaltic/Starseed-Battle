@@ -113,5 +113,10 @@ MonoBehaviour:
   speedStat: 0
   luckStat: 0
   movementStat: 0
+  evasionStat: 0
   myTurn: 0
   currentLocationTile: {fileID: 0}
+  turnOrder: 0
+  selectedForAttack: 0
+  characterName: 
+  standardScale: {x: 0, y: 0}

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Blessing_AI : Enemy
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         health = 10;
         mp = 10;
@@ -15,6 +15,7 @@ public class Blessing_AI : Enemy
         luckStat = 2;
         movementStat = 1;
 
+        characterName = "Blessing";
         myTurn = false;
     }
 

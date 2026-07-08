@@ -3,7 +3,7 @@ using UnityEngine;
 public class Player1 : Player
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         health = 100;
         mp = 10;
@@ -16,6 +16,7 @@ public class Player1 : Player
         movementStat = 1;
         evasionStat = 5;
 
+        characterName = "Player 1";
         myTurn = false;
     }
 

@@ -1,16 +1,24 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class BattleManager : MonoBehaviour
 {
+    // temp variables
+    public TMP_Text turnNumberText;
+
+
     public BattleState battleState;
     public GameObject[] enemyPrefabs;
     public GameObject[] playerPrefabs;
     public GameObject[] activePlayers;
     public GameObject[] activeEnemies;
+    public GameObject overheadHealthPrefab;
 
     public List<GameObject> turnOrderList;
+    public Character[] currentTurn;
+    public int currentTurnNumber;
     
     public int enemyIDNumber;
     public int enemySpawnNumber;
@@ -22,6 +30,7 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+        turnNumberText = GameObject.Find("Turn Number Text").gameObject.GetComponent<TMP_Text>();
         _tileManager = this.GetComponent<MoveableTileManager>();
         _gameplayMenuManager = GameObject.Find("GameplayMenuManager").gameObject.GetComponent<GameplayMenuManager>();
     }
@@ -35,6 +44,7 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         switch (battleState)
         {
 
@@ -57,7 +67,7 @@ public class BattleManager : MonoBehaviour
 
     public void InitializeBattleCharacters()
     {
-        enemySpawnNumber = Random.Range(1, _tileManager.enemyTiles.Length + 1);
+        enemySpawnNumber = 4; // Random.Range(1, _tileManager.enemyTiles.Length + 1);
 
         activeEnemies = new GameObject[(enemySpawnNumber)];
 
@@ -66,7 +76,9 @@ public class BattleManager : MonoBehaviour
         {
             enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
             // Debug.Log("Loading Enemy:" + enemyPrefabs[enemyIDNumber].name);
+            
             activeEnemies[i] = Instantiate(enemyPrefabs[enemyIDNumber]);
+            activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName + " " + i;
 
             _tileManager.SetEnemySpawnLocation(activeEnemies[i].GetComponent<Enemy>());
             SpawnEnemy(activeEnemies[i].GetComponent<Enemy>());
@@ -74,7 +86,9 @@ public class BattleManager : MonoBehaviour
         }
 
         activePlayers = new GameObject[1];
+        
         activePlayers[0] = Instantiate(playerPrefabs[0]);
+        activePlayers[0].name = activePlayers[0].GetComponent<Character>().characterName;
         _tileManager.SetHeroSpawnLocation(activePlayers[0].GetComponent<Player>());
         SpawnHero(activePlayers[0].GetComponent<Player>());
     }
@@ -101,6 +115,7 @@ public class BattleManager : MonoBehaviour
             turnOrderList.Add(activePlayers[i]);
         }
 
+        currentTurn = new Character[turnOrderList.Count];
         Shuffle(turnOrderList);
     }
 
@@ -127,7 +142,25 @@ public class BattleManager : MonoBehaviour
             a[i].GetComponent<Character>().turnOrder = i;
             Debug.Log("Turn #" + i + " " + a[i]);
         }
+
+        
     }
+
+
+    public void PhysicalAttack(GameObject target)
+    {
+        target.gameObject.GetComponent<Character>().health += -(turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
+        GameObject health = Instantiate(overheadHealthPrefab);
+        //health.transform.parent = GameObject.Find("HUD Canvas").gameObject.transform;
+        health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        health.transform.localScale = new Vector3(1, 1, 1);
+        health.GetComponent<HealthChangeUI>().SetText(-turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
+        // float offset = target.GetComponent<SpriteRenderer>().size.y;
+        health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
+        // Debug.Log("Enemy Height: " + offset);
+
+        target.gameObject.GetComponent<Character>().KnockBackEffect(target);
+    }    
 
 
 

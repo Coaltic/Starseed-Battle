@@ -19,8 +19,7 @@ public class GameplayMenuManager : MonoBehaviour
 
     public GameObject BattleManager;
     public BattleManager _battleManager;
-    // public TMP_Text startButtonText;
-    // public GameObject _GameplayMenuManager;
+    
 
     private void Awake()
     {
@@ -108,6 +107,38 @@ public class GameplayMenuManager : MonoBehaviour
     public void OnClickBack()
     {
         ChangeMenuScreenBack(previousMenuScreensList[previousMenuScreensList.Count - 2], previousMenuScreensList[previousMenuScreensList.Count - 1]);
+    }
+
+
+    public void OnAttackClick()
+    {
+        SwitchState(MenuState.Item);
+        MakeBackButton(gameplayMenus[1]);
+        for (int i = 0; i < _battleManager.activeEnemies.Length; i++)
+        {
+
+            if (_battleManager.turnOrderList[i] != null)
+            {
+                Button btn = gameplayMenus[1].gameObject.transform.GetChild(i + 1).GetComponent<Button>();
+                gameplayMenus[1].gameObject.transform.GetChild(i + 1).gameObject.SetActive(true);
+                gameplayMenus[1].gameObject.transform.GetChild(i + 1).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i].name;
+                GameObject target = _battleManager.activeEnemies[i];
+                btn.onClick.AddListener(delegate { SetEnemyAttackButton(target); });
+
+
+            }
+            else
+            {
+                // gameplayMenus[3].gameObject.SetActive(false);
+            }
+        }
+        ChangeMenuScreen(gameplayMenus[1], gameplayMenus[0]);
+    }
+
+    public void SetEnemyAttackButton(GameObject target)
+    {
+        Debug.Log("You tried to attack: " + target.name);
+        _battleManager.PhysicalAttack(target);
     }
 
     public void OnItemClick()

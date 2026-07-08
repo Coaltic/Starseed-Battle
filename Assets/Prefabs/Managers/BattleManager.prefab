@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4b5080ad80ff44cb8b2a755a461671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  turnNumberText: {fileID: 0}
   battleState: 0
   enemyPrefabs:
   - {fileID: 1479735766909479439, guid: 9181c6fea28c4a64893357f5141ac7ad, type: 3}
@@ -53,6 +54,9 @@ MonoBehaviour:
   - {fileID: 6457946098215705587, guid: 1b97f42d33e57f04bba5834da4c70058, type: 3}
   activePlayers: []
   activeEnemies: []
+  overheadHealthPrefab: {fileID: 5468033833987311006, guid: 314bd8fb5d432eb42ab3873425875f67, type: 3}
+  turnOrderList: []
+  currentTurn: 
   enemyIDNumber: 0
   enemySpawnNumber: 0
   _tileManager: {fileID: 0}

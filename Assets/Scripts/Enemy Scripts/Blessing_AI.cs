@@ -14,6 +14,8 @@ public class Blessing_AI : Enemy
         speedStat = 5;
         luckStat = 2;
         movementStat = 1;
+
+        myTurn = false;
     }
 
     // Update is called once per frame

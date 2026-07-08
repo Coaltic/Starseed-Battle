@@ -1,19 +1,20 @@
 using UnityEngine;
 
-public class Slime_AI : Enemy
+public class Player2 : Player
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        health = 10;
+        health = 150;
         mp = 10;
-        strengthStat = 20;
-        magicStat = 20;
-        physicalDefenseStat = 10;
-        magicDefenseStat = 10;
-        speedStat = 5;
-        luckStat = 2;
+        strengthStat = 10;
+        magicStat = 25;
+        physicalDefenseStat = 15;
+        magicDefenseStat = 25;
+        speedStat = 20;
+        luckStat = 100;
         movementStat = 1;
+        evasionStat = 10;
 
         myTurn = false;
     }
@@ -21,9 +22,6 @@ public class Slime_AI : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (myTurn)
-        {
-
-        }
+        
     }
 }

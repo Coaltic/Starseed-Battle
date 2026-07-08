@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     public int health;
     public int mp;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public int evasionStat;
 
     public bool myTurn;
-    public MoveableTile currentLocationTile;
+    
 
     void Start()
     {

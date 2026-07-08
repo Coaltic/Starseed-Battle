@@ -147,7 +147,7 @@ public class GameplayMenuManager : MonoBehaviour
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {
-        Debug.Log("Changing Menu Back");
+        // Debug.Log("Changing Menu Back");
         
         previousMenuScreen.SetActive(false);
         newMenuScreen.SetActive(true);
@@ -156,7 +156,7 @@ public class GameplayMenuManager : MonoBehaviour
     }
     public void ChangeMenuScreen(GameObject newMenuScreen, GameObject previousMenuScreen)
     {
-        Debug.Log("Changing Menu");
+        // Debug.Log("Changing Menu");
         if (previousMenuScreen != null)
         {
             previousMenuScreensList.Add(previousMenuScreen);

@@ -39,30 +39,23 @@ public class BattleManager : MonoBehaviour
     {
         InitializeBattleCharacters();
         SetBattleOrder();
+
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        switch (battleState)
+        if (currentTurn[currentTurnNumber].tag == "Player")
         {
 
-            case BattleState.InMenu:
-                // Debug.Log("State: In Menu");
-
-                break;
-
-            case BattleState.PlayerAttacking:
-                // Debug.Log("State: Player Attacking");
-
-                break;
-
-            case BattleState.EnemyAttacking:
-                // Debug.Log("State: Enemy Attacking");
-
-                break;
         }
+        if (currentTurn[currentTurnNumber].tag == "Enemy")
+        {
+            currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
+        }
+
     }
 
     public void InitializeBattleCharacters()
@@ -91,6 +84,8 @@ public class BattleManager : MonoBehaviour
         activePlayers[0].name = activePlayers[0].GetComponent<Character>().characterName;
         _tileManager.SetHeroSpawnLocation(activePlayers[0].GetComponent<Player>());
         SpawnHero(activePlayers[0].GetComponent<Player>());
+
+        
     }
 
     public void SpawnEnemy(Enemy enemy)
@@ -140,6 +135,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < a.Count; i++)
         {
             a[i].GetComponent<Character>().turnOrder = i;
+            currentTurn[i] = a[i].GetComponent<Character>();
             Debug.Log("Turn #" + i + " " + a[i]);
         }
 
@@ -160,7 +156,15 @@ public class BattleManager : MonoBehaviour
         // Debug.Log("Enemy Height: " + offset);
 
         target.gameObject.GetComponent<Character>().KnockBackEffect(target);
-    }    
+
+        EndOfTurn();
+    }
+    
+    public void EndOfTurn()
+    {
+        if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
+        else currentTurnNumber++;
+    }
 
 
 

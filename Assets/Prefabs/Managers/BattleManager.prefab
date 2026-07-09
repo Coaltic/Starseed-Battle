@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3236758800859329892}
   m_Layer: 0
   m_Name: BattleManager
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   turnNumberText: {fileID: 0}
+  turnActionText: {fileID: 0}
   battleState: 0
   enemyPrefabs:
-  - {fileID: 1479735766909479439, guid: 9181c6fea28c4a64893357f5141ac7ad, type: 3}
+  - {fileID: 2428202694349917098, guid: 24f28cf6a985683489d727f0baf97be3, type: 3}
   - {fileID: 8814430098278941314, guid: a5cb7459e0db8d14ebcba7fab31bf3a0, type: 3}
   playerPrefabs:
   - {fileID: 6457946098215705587, guid: 1b97f42d33e57f04bba5834da4c70058, type: 3}
@@ -56,9 +57,13 @@ MonoBehaviour:
   activeEnemies: []
   overheadHealthPrefab: {fileID: 5468033833987311006, guid: 314bd8fb5d432eb42ab3873425875f67, type: 3}
   turnOrderList: []
-  currentTurn: 
+  currentTurn: []
+  currentTurnNumber: 0
   enemyIDNumber: 0
   enemySpawnNumber: 0
+  attackCooldownTimer: 3
+  attackCooldownTimerMax: 3
+  isAttackCooldownActive: 0
   _tileManager: {fileID: 0}
   _gameplayMenuManager: {fileID: 0}
 --- !u!114 &3236758800859329892

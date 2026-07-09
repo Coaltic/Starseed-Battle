@@ -19,11 +19,11 @@ public class StartButton : MonoBehaviour
         
     }
 
-    public void OnClickStart()
+    /*public void OnClickStart()
     {
         Instantiate(BattleManager);
         transform.parent.Find("Gameplay Menu").gameObject.SetActive(true);
         GameplayMenuManager.SetActive(true);
         Destroy(this.gameObject);
-    }
+    }*/
 }

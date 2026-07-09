@@ -5,13 +5,14 @@ public class Enemy : Character
     
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
+        if (anim == null) anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("Runnning");
     }
 
     public void PickAttack(GameObject[] target, BattleManager _battleManager)
@@ -26,8 +27,8 @@ public class Enemy : Character
     {
         int rndAttackTarget = Random.Range(0, target.Length);
         _battleManager.PhysicalAttack(target[rndAttackTarget].gameObject);
-
-        Debug.Log(this.characterName + " Attacked " + target[rndAttackTarget].name);
+        // _battleManager.turnActionText.text = this.characterName + " Attacked " + target[rndAttackTarget].name;
+        // Debug.Log(this.characterName + " Attacked " + target[rndAttackTarget].name);
         // target[Random.Range(0, target.Length)].GetComponent<Character>();
     }
 

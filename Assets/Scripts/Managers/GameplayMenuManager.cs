@@ -93,6 +93,7 @@ public class GameplayMenuManager : MonoBehaviour
         menuState = newState;
     }
 
+
     public void OnButtonClicked(string btnName)
     {
         Debug.Log(btnName + " Button Clicked");
@@ -137,7 +138,7 @@ public class GameplayMenuManager : MonoBehaviour
 
     public void SetEnemyAttackButton(GameObject target)
     {
-        Debug.Log("You tried to attack: " + target.name);
+        // Debug.Log("You tried to attack: " + target.name);
         _battleManager.PhysicalAttack(target);
     }
 
@@ -163,17 +164,15 @@ public class GameplayMenuManager : MonoBehaviour
         ChangeMenuScreen(gameplayMenus[3], gameplayMenus[0]);
     }
 
-    public void OnClickStart()
+    public void OnClickStart(GameObject button)
     {
-        Destroy(startButton);
+        _battleManager = Instantiate(BattleManager).GetComponent<BattleManager>();
+
+        //transform.parent.Find("Gameplay Menu").gameObject.SetActive(true);
+        // GameplayMenuManager.SetActive(true);
+        //GameObject.Find("HUD Canvas/Panel/Gameplay Menu").SetActive(true);
         ChangeMenuScreen(gameplayMenus[0], null);
-        _battleManager =  Instantiate(BattleManager).GetComponent<BattleManager>();
-        // eventSystem.firstSelectedGameObject = activeMenuButtons[0].gameObject;
-        // eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
-        // gameplayMenuHUD.gameObject.SetActive(true);
-        SwitchState(MenuState.Main);
-        //eventSystem.firstSelectedGameObject = gameplayButtons[0].gameObject;
-        
+        Destroy(button);
     }
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)

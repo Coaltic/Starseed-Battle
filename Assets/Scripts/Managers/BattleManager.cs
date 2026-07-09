@@ -7,7 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     // temp variables
     public TMP_Text turnNumberText;
-
+    public TMP_Text turnActionText;
 
     public BattleState battleState;
     public GameObject[] enemyPrefabs;
@@ -23,6 +23,10 @@ public class BattleManager : MonoBehaviour
     public int enemyIDNumber;
     public int enemySpawnNumber;
 
+    public float attackCooldownTimer = 3.0f;
+    public float attackCooldownTimerMax = 3.0f;
+    public bool isAttackCooldownActive;
+
     public MoveableTileManager _tileManager;
     public GameplayMenuManager _gameplayMenuManager;
 
@@ -31,6 +35,7 @@ public class BattleManager : MonoBehaviour
     private void Awake()
     {
         turnNumberText = GameObject.Find("Turn Number Text").gameObject.GetComponent<TMP_Text>();
+        turnActionText = GameObject.Find("Turn Action Text").gameObject.GetComponent<TMP_Text>();
         _tileManager = this.GetComponent<MoveableTileManager>();
         _gameplayMenuManager = GameObject.Find("GameplayMenuManager").gameObject.GetComponent<GameplayMenuManager>();
     }
@@ -39,21 +44,23 @@ public class BattleManager : MonoBehaviour
     {
         InitializeBattleCharacters();
         SetBattleOrder();
-
-        
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (currentTurn[currentTurnNumber].tag == "Player")
+        if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
         {
 
         }
-        if (currentTurn[currentTurnNumber].tag == "Enemy")
+        if (currentTurn[currentTurnNumber].tag == "Enemy" && isAttackCooldownActive == false)
         {
             currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
+        }
+
+        if (isAttackCooldownActive)
+        {
+            AttackCooldownTimer();
         }
 
     }
@@ -146,24 +153,36 @@ public class BattleManager : MonoBehaviour
     public void PhysicalAttack(GameObject target)
     {
         target.gameObject.GetComponent<Character>().health += -(turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
+        if (target.tag == "Enemy") target.gameObject.GetComponent<Character>().StartKnockBackEffect();
         GameObject health = Instantiate(overheadHealthPrefab);
-        //health.transform.parent = GameObject.Find("HUD Canvas").gameObject.transform;
         health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
         health.transform.localScale = new Vector3(1, 1, 1);
         health.GetComponent<HealthChangeUI>().SetText(-turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
-        // float offset = target.GetComponent<SpriteRenderer>().size.y;
         health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
-        // Debug.Log("Enemy Height: " + offset);
 
-        target.gameObject.GetComponent<Character>().KnockBackEffect(target);
+         
+
+        turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
 
         EndOfTurn();
     }
     
     public void EndOfTurn()
     {
+        isAttackCooldownActive = true;
         if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
         else currentTurnNumber++;
+        turnNumberText.text = currentTurnNumber.ToString();
+    }
+
+    public void AttackCooldownTimer()
+    {
+        attackCooldownTimer -= Time.deltaTime;
+        if (attackCooldownTimer <= 0.0f)
+        {
+            attackCooldownTimer = attackCooldownTimerMax;
+            isAttackCooldownActive = false;
+        }
     }
 
 

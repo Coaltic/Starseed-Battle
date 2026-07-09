@@ -87,21 +87,43 @@ public class MoveableTileManager : MonoBehaviour
     // Sets render layer and size for enemies, will find better solution later
     public void SetEnemyRenderLevel(Enemy enemy)
     {
-        if (enemy.currentLocationTile == enemyTiles[0] || enemy.currentLocationTile == enemyTiles[1] || enemy.currentLocationTile == enemyTiles[2])
+        if (enemy.GetComponent<SpriteRenderer>() == null)
         {
-            enemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 1.5f, enemy.transform.localScale.y / 1.5f);
-        }
-        if (enemy.currentLocationTile == enemyTiles[3] || enemy.currentLocationTile == enemyTiles[4] || enemy.currentLocationTile == enemyTiles[5])
-        {
-            enemy.GetComponent<SpriteRenderer>().sortingOrder = 2;
-            enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 1.25f, enemy.transform.localScale.y / 1.25f);
-        }
-        if (enemy.currentLocationTile == enemyTiles[6] || enemy.currentLocationTile == enemyTiles[7] || enemy.currentLocationTile == enemyTiles[8])
-        {
-            enemy.GetComponent<SpriteRenderer>().sortingOrder = 3;
-            // enemy.transform.localScale = enemy.standardScale;
+            if (enemy.currentLocationTile == enemyTiles[0] || enemy.currentLocationTile == enemyTiles[1] || enemy.currentLocationTile == enemyTiles[2])
+            {
+                enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 1;
+                enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 1.5f, enemy.transform.localScale.y / 1.5f);
+            }
+            if (enemy.currentLocationTile == enemyTiles[3] || enemy.currentLocationTile == enemyTiles[4] || enemy.currentLocationTile == enemyTiles[5])
+            {
+                enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
+                enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 1.25f, enemy.transform.localScale.y / 1.25f);
+            }
+            if (enemy.currentLocationTile == enemyTiles[6] || enemy.currentLocationTile == enemyTiles[7] || enemy.currentLocationTile == enemyTiles[8])
+            {
+                enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 3;
+                // enemy.transform.localScale = enemy.standardScale;
 
+            }
+        }
+        else
+        {
+            if (enemy.currentLocationTile == enemyTiles[0] || enemy.currentLocationTile == enemyTiles[1] || enemy.currentLocationTile == enemyTiles[2])
+            {
+                enemy.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 1.5f, enemy.transform.localScale.y / 1.5f);
+            }
+            if (enemy.currentLocationTile == enemyTiles[3] || enemy.currentLocationTile == enemyTiles[4] || enemy.currentLocationTile == enemyTiles[5])
+            {
+                enemy.GetComponent<SpriteRenderer>().sortingOrder = 2;
+                enemy.transform.localScale = new Vector3(enemy.transform.localScale.x / 1.25f, enemy.transform.localScale.y / 1.25f);
+            }
+            if (enemy.currentLocationTile == enemyTiles[6] || enemy.currentLocationTile == enemyTiles[7] || enemy.currentLocationTile == enemyTiles[8])
+            {
+                enemy.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                // enemy.transform.localScale = enemy.standardScale;
+
+            }
         }
     }
 

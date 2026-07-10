@@ -50,7 +50,7 @@ MonoBehaviour:
   battleState: 0
   enemyPrefabs:
   - {fileID: 2428202694349917098, guid: 24f28cf6a985683489d727f0baf97be3, type: 3}
-  - {fileID: 8814430098278941314, guid: a5cb7459e0db8d14ebcba7fab31bf3a0, type: 3}
+  - {fileID: 7727645156677861377, guid: 0fab85c324b64b3439a86d1491d2a89c, type: 3}
   playerPrefabs:
   - {fileID: 6457946098215705587, guid: 1b97f42d33e57f04bba5834da4c70058, type: 3}
   activePlayers: []

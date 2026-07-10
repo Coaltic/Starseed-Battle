@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7156382818060198691}
+  - component: {fileID: 8116412341331249032}
+  - component: {fileID: 2148393990595756276}
   m_Layer: 0
   m_Name: Blessing_A 1
   m_TagString: Untagged
@@ -32,6 +34,57 @@ Transform:
   - {fileID: 4543670398492114439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8116412341331249032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7727645156677861377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5c1feda1586664fa9cfff03eb38c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Blessing_AI
+  health: 0
+  mp: 0
+  strengthStat: 0
+  magicStat: 0
+  physicalDefenseStat: 0
+  magicDefenseStat: 0
+  speedStat: 0
+  luckStat: 0
+  movementStat: 0
+  evasionStat: 0
+  myTurn: 0
+  currentLocationTile: {fileID: 0}
+  turnOrder: 0
+  selectedForAttack: 0
+  characterName: 
+  standardScale: {x: 0, y: 0}
+  anim: {fileID: 0}
+--- !u!95 &2148393990595756276
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7727645156677861377}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e92e4947413daf642a7d52e7337761a1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2992705950619019760
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,7 +137,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blessing_A
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8814430098278941314, guid: a5cb7459e0db8d14ebcba7fab31bf3a0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4821227725130331479, guid: a5cb7459e0db8d14ebcba7fab31bf3a0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -153,7 +153,7 @@ public class BattleManager : MonoBehaviour
     public void PhysicalAttack(GameObject target)
     {
         target.gameObject.GetComponent<Character>().health += -(turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
-        if (target.tag == "Enemy") target.gameObject.GetComponent<Character>().StartKnockBackEffect();
+        target.gameObject.GetComponent<Character>().StartKnockBackEffect();
         GameObject health = Instantiate(overheadHealthPrefab);
         health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
         health.transform.localScale = new Vector3(1, 1, 1);
@@ -164,15 +164,16 @@ public class BattleManager : MonoBehaviour
 
         turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
 
-        EndOfTurn();
+        EndOfTurn(target.gameObject.GetComponent<Character>());
     }
     
-    public void EndOfTurn()
+    public void EndOfTurn(Character character)
     {
         isAttackCooldownActive = true;
         if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
         else currentTurnNumber++;
         turnNumberText.text = currentTurnNumber.ToString();
+        if (character.health <= 0) character.gameObject.SetActive(false);
     }
 
     public void AttackCooldownTimer()

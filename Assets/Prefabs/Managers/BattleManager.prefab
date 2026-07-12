@@ -52,7 +52,7 @@ MonoBehaviour:
   - {fileID: 2428202694349917098, guid: 24f28cf6a985683489d727f0baf97be3, type: 3}
   - {fileID: 7727645156677861377, guid: 0fab85c324b64b3439a86d1491d2a89c, type: 3}
   playerPrefabs:
-  - {fileID: 6457946098215705587, guid: 1b97f42d33e57f04bba5834da4c70058, type: 3}
+  - {fileID: 4219607614140852172, guid: da98842e06e319f4b9410ff09d36e58e, type: 3}
   activePlayers: []
   activeEnemies: []
   overheadHealthPrefab: {fileID: 5468033833987311006, guid: 314bd8fb5d432eb42ab3873425875f67, type: 3}

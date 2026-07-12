@@ -131,17 +131,17 @@ public class MoveableTileManager : MonoBehaviour
     {
         if (hero.currentLocationTile == playerTiles[0] || hero.currentLocationTile == playerTiles[1] || hero.currentLocationTile == playerTiles[2])
         {
-            hero.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            hero.GetComponentInChildren<SpriteRenderer>().sortingOrder = 1;
             hero.transform.localScale = new Vector3(hero.transform.localScale.x / 1.5f, hero.transform.localScale.y / 1.5f);
         }
         if (hero.currentLocationTile == playerTiles[3] || hero.currentLocationTile == playerTiles[4] || hero.currentLocationTile == playerTiles[5])
         {
-            hero.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            hero.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
             hero.transform.localScale = new Vector3(hero.transform.localScale.x / 1.25f, hero.transform.localScale.y / 1.25f);
         }
         if (hero.currentLocationTile == playerTiles[6] || hero.currentLocationTile == playerTiles[7] || hero.currentLocationTile == playerTiles[8])
         {
-            hero.GetComponent<SpriteRenderer>().sortingOrder = 3;
+            hero.GetComponentInChildren<SpriteRenderer>().sortingOrder = 3;
             // hero.transform.localScale = hero.standardScale;
 
         }

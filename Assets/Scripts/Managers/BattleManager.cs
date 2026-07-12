@@ -19,7 +19,7 @@ public class BattleManager : MonoBehaviour
     public List<GameObject> turnOrderList;
     public Character[] currentTurn;
     public int currentTurnNumber;
-    
+
     public int enemyIDNumber;
     public int enemySpawnNumber;
 
@@ -49,6 +49,7 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentTurnNumber > currentTurn.Length) currentTurnNumber = 0;
         if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
         {
 
@@ -76,7 +77,7 @@ public class BattleManager : MonoBehaviour
         {
             enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
             // Debug.Log("Loading Enemy:" + enemyPrefabs[enemyIDNumber].name);
-            
+
             activeEnemies[i] = Instantiate(enemyPrefabs[enemyIDNumber]);
             activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName + " " + i;
 
@@ -86,13 +87,13 @@ public class BattleManager : MonoBehaviour
         }
 
         activePlayers = new GameObject[1];
-        
+
         activePlayers[0] = Instantiate(playerPrefabs[0]);
         activePlayers[0].name = activePlayers[0].GetComponent<Character>().characterName;
         _tileManager.SetHeroSpawnLocation(activePlayers[0].GetComponent<Player>());
         SpawnHero(activePlayers[0].GetComponent<Player>());
 
-        
+
     }
 
     public void SpawnEnemy(Enemy enemy)
@@ -146,7 +147,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Turn #" + i + " " + a[i]);
         }
 
-        
+
     }
 
 
@@ -160,20 +161,73 @@ public class BattleManager : MonoBehaviour
         health.GetComponent<HealthChangeUI>().SetText(-turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
         health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
 
-         
+
 
         turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
 
         EndOfTurn(target.gameObject.GetComponent<Character>());
     }
-    
+
     public void EndOfTurn(Character character)
     {
         isAttackCooldownActive = true;
         if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
         else currentTurnNumber++;
         turnNumberText.text = currentTurnNumber.ToString();
-        if (character.health <= 0) character.gameObject.SetActive(false);
+        if (character.health <= 0) DeathOfCharacter(character);
+    }
+
+    public void DeathOfCharacter(Character character)
+    {
+        /*public List<GameObject> turnOrderList;
+        public Character[] currentTurn;
+        public int currentTurnNumber;
+        activeEnemies;*/
+        int tempPlayerIncrement = 0;
+        int tempEnemyIncrement = 0;
+        // GameObject[] tempArray = new GameObject[activePlayers.Length - 1];
+        character.gameObject.SetActive(false);
+        turnOrderList.Remove(character.gameObject);
+        if (character.tag == "Player") activePlayers = new GameObject[activePlayers.Length - 1];
+        if (character.tag == "Enemy") activeEnemies = new GameObject[activeEnemies.Length - 1];
+        currentTurn = new Character[turnOrderList.Count];
+
+        for (int i = 0; i < turnOrderList.Count; i++)
+        {
+            if (turnOrderList[i].gameObject.tag == "Player")
+            {
+                activePlayers[tempPlayerIncrement] = turnOrderList[i];
+                tempPlayerIncrement++;
+            }
+            if (turnOrderList[i].gameObject.tag == "Enemy")
+            {
+                activeEnemies[tempEnemyIncrement] = turnOrderList[i];
+                tempEnemyIncrement++;
+            }
+            currentTurn[i] = turnOrderList[i].GetComponent<Character>();
+            currentTurn[i].turnOrder = i;
+            
+        }
+
+        
+    }
+
+    public void DeathOfEnemy(Character character)
+    {
+        int tempIncrement = 0;
+        turnOrderList.Remove(character.gameObject);
+        activeEnemies = new GameObject[activeEnemies.Length - 1];
+
+
+        for (int i = 0; i < turnOrderList.Count; i++)
+        {
+            if (turnOrderList[i].gameObject.tag == "Enemy")
+            {
+                activePlayers[tempIncrement] = turnOrderList[i];
+                tempIncrement++;
+            }
+
+        }
     }
 
     public void AttackCooldownTimer()

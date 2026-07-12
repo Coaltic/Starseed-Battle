@@ -5,7 +5,7 @@ public class Player1 : Player
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        health = 100;
+        health = 1000;
         mp = 10;
         strengthStat = 20;
         magicStat = 10;

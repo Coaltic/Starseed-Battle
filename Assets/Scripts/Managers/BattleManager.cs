@@ -26,6 +26,7 @@ public class BattleManager : MonoBehaviour
     public float attackCooldownTimer = 3.0f;
     public float attackCooldownTimerMax = 3.0f;
     public bool isAttackCooldownActive;
+    public bool isBattleActive;
 
     public MoveableTileManager _tileManager;
     public GameplayMenuManager _gameplayMenuManager;
@@ -49,20 +50,25 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentTurnNumber > currentTurn.Length) currentTurnNumber = 0;
-        if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
+        if (isBattleActive)
         {
+            if (currentTurnNumber > currentTurn.Length) currentTurnNumber = 0;
+            if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
+            {
+
+            }
+            if (currentTurn[currentTurnNumber].tag == "Enemy" && isAttackCooldownActive == false)
+            {
+                currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
+            }
+
+            if (isAttackCooldownActive)
+            {
+                AttackCooldownTimer();
+            }
 
         }
-        if (currentTurn[currentTurnNumber].tag == "Enemy" && isAttackCooldownActive == false)
-        {
-            currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
-        }
 
-        if (isAttackCooldownActive)
-        {
-            AttackCooldownTimer();
-        }
 
     }
 
@@ -147,7 +153,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Turn #" + i + " " + a[i]);
         }
 
-
+        isBattleActive = true;
     }
 
 
@@ -179,13 +185,9 @@ public class BattleManager : MonoBehaviour
 
     public void DeathOfCharacter(Character character)
     {
-        /*public List<GameObject> turnOrderList;
-        public Character[] currentTurn;
-        public int currentTurnNumber;
-        activeEnemies;*/
         int tempPlayerIncrement = 0;
         int tempEnemyIncrement = 0;
-        // GameObject[] tempArray = new GameObject[activePlayers.Length - 1];
+        if (character.turnOrder < currentTurnNumber) currentTurnNumber--;
         character.gameObject.SetActive(false);
         turnOrderList.Remove(character.gameObject);
         if (character.tag == "Player") activePlayers = new GameObject[activePlayers.Length - 1];
@@ -209,25 +211,13 @@ public class BattleManager : MonoBehaviour
             
         }
 
-        
+        if (activeEnemies.Length == 0) BattleWon();
     }
-
-    public void DeathOfEnemy(Character character)
+        
+    public void BattleWon()
     {
-        int tempIncrement = 0;
-        turnOrderList.Remove(character.gameObject);
-        activeEnemies = new GameObject[activeEnemies.Length - 1];
-
-
-        for (int i = 0; i < turnOrderList.Count; i++)
-        {
-            if (turnOrderList[i].gameObject.tag == "Enemy")
-            {
-                activePlayers[tempIncrement] = turnOrderList[i];
-                tempIncrement++;
-            }
-
-        }
+        isBattleActive = false;
+        turnActionText.text = "YOU WON";
     }
 
     public void AttackCooldownTimer()

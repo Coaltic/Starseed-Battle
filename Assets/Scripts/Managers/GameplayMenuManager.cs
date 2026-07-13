@@ -113,7 +113,7 @@ public class GameplayMenuManager : MonoBehaviour
 
     public void OnAttackClick()
     {
-        SwitchState(MenuState.Item);
+        SwitchState(MenuState.Attack);
         MakeBackButton(gameplayMenus[1]);
         for (int i = 0; i < _battleManager.activeEnemies.Length; i++)
         {
@@ -130,7 +130,7 @@ public class GameplayMenuManager : MonoBehaviour
             }
             else
             {
-                // gameplayMenus[3].gameObject.SetActive(false);
+                gameplayMenus[1].gameObject.transform.GetChild(i + 1).gameObject.SetActive(false);
             }
         }
         ChangeMenuScreen(gameplayMenus[1], gameplayMenus[0]);

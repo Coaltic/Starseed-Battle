@@ -55,11 +55,15 @@ public class BattleManager : MonoBehaviour
             if (currentTurnNumber > currentTurn.Length) currentTurnNumber = 0;
             if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
             {
-
+                _gameplayMenuManager.EnableActiveMenuButtons();
             }
-            if (currentTurn[currentTurnNumber].tag == "Enemy" && isAttackCooldownActive == false)
+            if (currentTurn[currentTurnNumber].tag == "Enemy")
             {
-                currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
+                _gameplayMenuManager.DisableActiveMenuButtons();
+                if (isAttackCooldownActive == false)
+                {
+                    currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
+                }
             }
 
             if (isAttackCooldownActive)

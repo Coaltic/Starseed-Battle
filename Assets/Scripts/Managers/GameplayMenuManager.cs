@@ -14,6 +14,7 @@ public class GameplayMenuManager : MonoBehaviour
     public GameObject gameplayMenuHUD;
     public EventSystem eventSystem;
     public PlayerInventory playerInventory;
+    public bool isMenuDisabled;
 
     public List<GameObject> previousMenuScreensList = new List<GameObject>();
 
@@ -114,23 +115,27 @@ public class GameplayMenuManager : MonoBehaviour
     public void OnAttackClick()
     {
         SwitchState(MenuState.Attack);
-        MakeBackButton(gameplayMenus[1]);
-        for (int i = 0; i < _battleManager.activeEnemies.Length; i++)
+        // MakeBackButton(gameplayMenus[1]);
+        for (int i = 0; i < gameplayMenus[1].gameObject.transform.childCount; i++)
         {
-
-            if (_battleManager.turnOrderList[i] != null)
+            if (i == 0)
             {
-                Button btn = gameplayMenus[1].gameObject.transform.GetChild(i + 1).GetComponent<Button>();
-                gameplayMenus[1].gameObject.transform.GetChild(i + 1).gameObject.SetActive(true);
-                gameplayMenus[1].gameObject.transform.GetChild(i + 1).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i].name;
-                GameObject target = _battleManager.activeEnemies[i];
+                MakeBackButton(gameplayMenus[1]);
+            }
+            else if (i <= _battleManager.activeEnemies.Length)
+            {
+                Button btn = gameplayMenus[1].gameObject.transform.GetChild(i).GetComponent<Button>();
+                gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.SetActive(true);
+                gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i - 1].name;
+                GameObject target = _battleManager.activeEnemies[i - 1];
+                btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(delegate { SetEnemyAttackButton(target); });
 
 
             }
             else
             {
-                gameplayMenus[1].gameObject.transform.GetChild(i + 1).gameObject.SetActive(false);
+                gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
         ChangeMenuScreen(gameplayMenus[1], gameplayMenus[0]);
@@ -138,22 +143,25 @@ public class GameplayMenuManager : MonoBehaviour
 
     public void SetEnemyAttackButton(GameObject target)
     {
-        // Debug.Log("You tried to attack: " + target.name);
         _battleManager.PhysicalAttack(target);
+        OnClickBack();
     }
 
     public void OnItemClick()
     {
         SwitchState(MenuState.Item);
-        MakeBackButton(gameplayMenus[3]);
+        // MakeBackButton(gameplayMenus[3]);
         for (int i = 0; i < playerInventory.inventoryItems.Count; i++)
         {
-            
-            if (playerInventory.inventoryItems[i] != null)
+            if (i == 0)
+            {
+                MakeBackButton(gameplayMenus[3]);
+            }
+            else if (playerInventory.inventoryItems[i] != null)
             {
 
-                gameplayMenus[3].gameObject.transform.GetChild(i + 1).gameObject.SetActive(true);
-                gameplayMenus[3].gameObject.transform.GetChild(i + 1).gameObject.transform.GetComponentInChildren<TMP_Text>().text = playerInventory.inventoryItems[i];
+                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.SetActive(true);
+                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = playerInventory.inventoryItems[i];
                 
             }
             else
@@ -168,17 +176,12 @@ public class GameplayMenuManager : MonoBehaviour
     {
         _battleManager = Instantiate(BattleManager).GetComponent<BattleManager>();
 
-        //transform.parent.Find("Gameplay Menu").gameObject.SetActive(true);
-        // GameplayMenuManager.SetActive(true);
-        //GameObject.Find("HUD Canvas/Panel/Gameplay Menu").SetActive(true);
         ChangeMenuScreen(gameplayMenus[0], null);
         Destroy(button);
     }
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {
-        // Debug.Log("Changing Menu Back");
-        
         previousMenuScreen.SetActive(false);
         newMenuScreen.SetActive(true);
         previousMenuScreensList.Remove(previousMenuScreen);
@@ -210,6 +213,39 @@ public class GameplayMenuManager : MonoBehaviour
         }
 
         eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
+    }
+
+    public void EnableActiveMenuButtons()
+    {
+        if (isMenuDisabled == true)
+        {
+            for (int i = 0; i < gameplayMenus[0].gameObject.transform.childCount; i++)
+            {
+                gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = true;
+                activeMenuButtons[i] = gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
+            }
+
+            isMenuDisabled = false;
+        }
+        
+
+        // eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
+    }
+
+    public void DisableActiveMenuButtons()
+    {
+        if (isMenuDisabled == false)
+        {
+            for (int i = 0; i < gameplayMenus[0].gameObject.transform.childCount; i++)
+            {
+                gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = false;
+            }
+
+            isMenuDisabled = true;
+        }
+        
+
+        // eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
     }
 }
 

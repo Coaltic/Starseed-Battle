@@ -60,7 +60,7 @@ public class Character : MonoBehaviour
     public void StartKnockBackEffect()
     {
         anim.SetBool("Knockback", true);
-        Debug.Log("Should have knockback");
+        // Debug.Log("Should have knockback");
     }
 
     public void EndKnockBackEffect()

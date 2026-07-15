@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-
+    public int maxHealth;
     public int health;
+    public int maxMp;
     public int mp;
     public int strengthStat;
     public int magicStat;

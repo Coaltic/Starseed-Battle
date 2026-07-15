@@ -14,6 +14,7 @@ public class GameplayMenuManager : MonoBehaviour
     public GameObject gameplayMenuHUD;
     public EventSystem eventSystem;
     public PlayerInventory playerInventory;
+    public GameObject healthPanelPrefab;
     public bool isMenuDisabled;
 
     public List<GameObject> previousMenuScreensList = new List<GameObject>();
@@ -25,7 +26,7 @@ public class GameplayMenuManager : MonoBehaviour
     private void Awake()
     {
         playerInventory = GameObject.Find("GameManager").gameObject.GetComponent<PlayerInventory>();
-        int gameplayButtonCount = gameplayMenuHUD.gameObject.transform.childCount;
+        // int gameplayButtonCount = gameplayMenuHUD.gameObject.transform.childCount;
 
         /*activeMenuButtons = new Button[gameplayButtonCount];
 
@@ -37,7 +38,6 @@ public class GameplayMenuManager : MonoBehaviour
     }
     void Start()
     {
-        
         SwitchState(MenuState.Start);
     }
 
@@ -177,6 +177,8 @@ public class GameplayMenuManager : MonoBehaviour
         _battleManager = Instantiate(BattleManager).GetComponent<BattleManager>();
 
         ChangeMenuScreen(gameplayMenus[0], null);
+        GameObject characterInfoPanel = Instantiate(healthPanelPrefab);
+        characterInfoPanel.gameObject.transform.SetParent(GameObject.Find("Char Info HUD").gameObject.transform, false);
         Destroy(button);
     }
 
@@ -202,7 +204,7 @@ public class GameplayMenuManager : MonoBehaviour
 
         UpdateActiveMenuButtons(newMenuScreen);
 
-
+        
     }
 
     public void UpdateActiveMenuButtons(GameObject newMenuScreen)
@@ -211,7 +213,7 @@ public class GameplayMenuManager : MonoBehaviour
         {
             activeMenuButtons[i] = newMenuScreen.gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
         }
-
+        // Debug.Log("Runnning");
         eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
     }
 
@@ -221,15 +223,18 @@ public class GameplayMenuManager : MonoBehaviour
         {
             for (int i = 0; i < gameplayMenus[0].gameObject.transform.childCount; i++)
             {
-                gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = true;
-                activeMenuButtons[i] = gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
+                if (gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>() != null)
+                {
+                    gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = true;
+                    activeMenuButtons[i] = gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
+                }
             }
 
+            eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
             isMenuDisabled = false;
+            
         }
         
-
-        // eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
     }
 
     public void DisableActiveMenuButtons()
@@ -238,14 +243,12 @@ public class GameplayMenuManager : MonoBehaviour
         {
             for (int i = 0; i < gameplayMenus[0].gameObject.transform.childCount; i++)
             {
-                gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = false;
+                if (gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>() != null) gameplayMenus[0].gameObject.transform.GetChild(i).gameObject.GetComponent<Button>().interactable = false;
             }
 
             isMenuDisabled = true;
         }
         
-
-        // eventSystem.SetSelectedGameObject(activeMenuButtons[0].gameObject);
     }
 }
 

@@ -32,9 +32,10 @@ public class Player1 : Player
     {
         if (this.infoPanel != null)
         {
-            infoPanel.charName.text = this.characterName;
-            infoPanel.hpText.text = ("HP: " + this.health + "/" + this.maxHealth);
-            infoPanel.mpText.text = ("MP: " + this.mp + "/" + this.maxMP);
+            UpdateInfoBars();
         }
     }
+
+    
+
 }

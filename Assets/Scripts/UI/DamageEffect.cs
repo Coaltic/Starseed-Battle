@@ -36,7 +36,7 @@ public class DamageEffect : MonoBehaviour
         if (hpText < 0)
         {
             damageEffectText.color = Color.red;
-            damageEffectText.text = "-" + hpText;
+            damageEffectText.text = hpText.ToString();
         }
     }
     void FadeOut()

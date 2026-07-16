@@ -27,6 +27,7 @@ public class BattleManager : MonoBehaviour
     public float attackCooldownTimerMax = 3.0f;
     public bool isAttackCooldownActive;
     public bool isBattleActive;
+    public bool onceATurn;
 
     public MoveableTileManager _tileManager;
     public GameplayMenuManager _gameplayMenuManager;
@@ -54,9 +55,15 @@ public class BattleManager : MonoBehaviour
     {
         if (isBattleActive)
         {
-            if (currentTurnNumber > currentTurn.Length) currentTurnNumber = 0;
+            if (currentTurnNumber >= currentTurn.Length) currentTurnNumber = 0;
             if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
             {
+                if (onceATurn)
+                {
+                    currentTurn[currentTurnNumber].OnceATurn();
+                    onceATurn = false;
+                }
+                
                 _gameplayMenuManager.EnableActiveMenuButtons();
             }
             if (currentTurn[currentTurnNumber].tag == "Enemy")
@@ -80,7 +87,7 @@ public class BattleManager : MonoBehaviour
 
     public void InitializeBattleCharacters()
     {
-        enemySpawnNumber = 4; // Random.Range(1, _tileManager.enemyTiles.Length + 1);
+        enemySpawnNumber = Random.Range(1, 5); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
 
         activeEnemies = new GameObject[(enemySpawnNumber)];
 
@@ -165,12 +172,13 @@ public class BattleManager : MonoBehaviour
 
     public void PhysicalAttack(GameObject target)
     {
-        target.gameObject.GetComponent<Character>().health += -(turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
+        int damageDelt = turnOrderList[currentTurnNumber].GetComponent<Character>().CalculateDamage();
+        target.gameObject.GetComponent<Character>().health += -(damageDelt);
         target.gameObject.GetComponent<Character>().StartKnockBackEffect();
         GameObject health = Instantiate(overheadHealthPrefab);
         health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
         health.transform.localScale = new Vector3(1, 1, 1);
-        health.GetComponent<DamageEffect>().SetText(-turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
+        health.GetComponent<DamageEffect>().SetText(-damageDelt);
         health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
 
 
@@ -182,11 +190,13 @@ public class BattleManager : MonoBehaviour
 
     public void EndOfTurn(Character character)
     {
+
         isAttackCooldownActive = true;
         if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
         else currentTurnNumber++;
         turnNumberText.text = currentTurnNumber.ToString();
         if (character.health <= 0) DeathOfCharacter(character);
+        onceATurn = true;
     }
 
     public void DeathOfCharacter(Character character)
@@ -194,6 +204,7 @@ public class BattleManager : MonoBehaviour
         int tempPlayerIncrement = 0;
         int tempEnemyIncrement = 0;
         if (character.turnOrder < currentTurnNumber) currentTurnNumber--;
+        if (character.tag == "Player") character.GetComponent<Player>().UpdateInfoBars();
         character.gameObject.SetActive(false);
         turnOrderList.Remove(character.gameObject);
         if (character.tag == "Player") activePlayers = new GameObject[activePlayers.Length - 1];
@@ -218,12 +229,19 @@ public class BattleManager : MonoBehaviour
         }
 
         if (activeEnemies.Length == 0) BattleWon();
+        if (activePlayers.Length == 0) BattleLost();
     }
         
     public void BattleWon()
     {
         isBattleActive = false;
         turnActionText.text = "YOU WON";
+    }
+
+    public void BattleLost()
+    {
+        isBattleActive = false;
+        turnActionText.text = "YOU LOST";
     }
 
     public void AttackCooldownTimer()

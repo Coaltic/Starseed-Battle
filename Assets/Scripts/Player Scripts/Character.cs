@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    public string characterName;
     public int maxHealth;
     public int health;
     public int maxMP;
@@ -20,7 +21,8 @@ public class Character : MonoBehaviour
     public MoveableTile currentLocationTile;
     public int turnOrder;
     public bool selectedForAttack;
-    public string characterName;
+
+    public Spell[] knownSpells;
 
     public Vector2 standardScale;
     public Animator anim;
@@ -29,7 +31,6 @@ public class Character : MonoBehaviour
     void Awake()
     {
         standardScale = new Vector2(transform.localScale.x, transform.localScale.y);
-        
     }
 
     void Start()
@@ -40,22 +41,22 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*Debug.Log("Runnning");
 
-        if (isTakingKnockback == true)
-        {
-            KnockBackEffect();
-        }
-        if (isTakingKnockback == false)
-        {
-            knockbackStartLocation = this.gameObject.transform.position;
-        }*/
+    }
+
+    public void OnceATurn()
+    {
+        if (this.mp < this.maxMP) mp++;
+    }
+
+    public int CalculateDamage()
+    {
+        return (Random.Range((strengthStat / 2), strengthStat * 2));
     }
 
     public void StartKnockBackEffect()
     {
         anim.SetBool("Knockback", true);
-        // Debug.Log("Should have knockback");
     }
 
     public void EndKnockBackEffect()

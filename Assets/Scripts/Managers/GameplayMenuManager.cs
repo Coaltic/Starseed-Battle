@@ -109,14 +109,11 @@ public class GameplayMenuManager : MonoBehaviour
             {
                 _battleManager.activePlayers[i].GetComponent<Player>().infoPanel = infoPanels[i];
                 infoPanels[i].gameObject.SetActive(true);
-                Debug.Log("Setting Pannel " + i + " Active");
 
             }
             else
             {
-                Debug.Log("Setting Pannel " + i + " Inactive");
                 infoPanels[i].gameObject.SetActive(false);
-                Debug.Log("Active Player Length: " + _battleManager.activePlayers.Length);
             }
         }
     }
@@ -153,6 +150,33 @@ public class GameplayMenuManager : MonoBehaviour
                 Button btn = gameplayMenus[1].gameObject.transform.GetChild(i).GetComponent<Button>();
                 gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.SetActive(true);
                 gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i - 1].name;
+                GameObject target = _battleManager.activeEnemies[i - 1];
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(delegate { SetEnemyAttackButton(target); });
+
+
+            }
+            else
+            {
+                gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+        ChangeMenuScreen(gameplayMenus[1], gameplayMenus[0]);
+    }
+
+    public void OnMagicClick()
+    {
+        for (int i = 0; i < gameplayMenus[3].gameObject.transform.childCount; i++)
+        {
+            if (i == 0)
+            {
+                MakeBackButton(gameplayMenus[3]);
+            }
+            else if (i <= _battleManager.activeEnemies.Length)
+            {
+                Button btn = gameplayMenus[3].gameObject.transform.GetChild(i).GetComponent<Button>();
+                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.SetActive(true);
+                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i - 1].name;
                 GameObject target = _battleManager.activeEnemies[i - 1];
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(delegate { SetEnemyAttackButton(target); });

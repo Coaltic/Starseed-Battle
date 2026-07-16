@@ -7,7 +7,7 @@ public class Blessing_AI : Enemy
     {
         health = 10;
         mp = 10;
-        strengthStat = 20;
+        strengthStat = 25;
         magicStat = 20;
         physicalDefenseStat = 10;
         magicDefenseStat = 10;

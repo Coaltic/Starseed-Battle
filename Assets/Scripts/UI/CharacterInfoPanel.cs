@@ -14,9 +14,9 @@ public class CharacterInfoPanel : MonoBehaviour
     {
         charName = this.gameObject.transform.GetChild(0).GetComponent<TMP_Text>();
         hpText = this.gameObject.transform.GetChild(1).GetComponent<TMP_Text>();
-        hpBar = hpText.gameObject.transform.GetChild(0).GetComponentInChildren<Image>();
+        hpBar = hpText.gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         mpText = this.gameObject.transform.GetChild(2).GetComponent<TMP_Text>();
-        mpBar = mpText.gameObject.transform.GetChild(0).GetComponentInChildren<Image>();
+        mpBar = mpText.gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>();
 
     }
 

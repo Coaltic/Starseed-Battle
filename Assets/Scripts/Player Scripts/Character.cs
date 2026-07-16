@@ -4,7 +4,7 @@ public class Character : MonoBehaviour
 {
     public int maxHealth;
     public int health;
-    public int maxMp;
+    public int maxMP;
     public int mp;
     public int strengthStat;
     public int magicStat;
@@ -24,12 +24,6 @@ public class Character : MonoBehaviour
 
     public Vector2 standardScale;
     public Animator anim;
-
-    /*public float knockbackTimer = 0.5f;
-    public float knockbackTimerMax = 0.5f;
-    public bool isTakingKnockback;
-
-    public Vector2 knockbackStartLocation;*/
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()

@@ -6090,7 +6090,8 @@ MonoBehaviour:
   gameplayMenuHUD: {fileID: 959370785}
   eventSystem: {fileID: 519002220}
   playerInventory: {fileID: 0}
-  healthPanelPrefab: {fileID: 6109495567746941337, guid: d67cc5fb2178797449e2d821f91e7a7c, type: 3}
+  characterInfoPanelPrefab: {fileID: 6109495567746941337, guid: d67cc5fb2178797449e2d821f91e7a7c, type: 3}
+  infoPanels: []
   isMenuDisabled: 0
   previousMenuScreensList: []
   BattleManager: {fileID: 2068029061250692545, guid: 12634bbfd63e21b419ebbd06de3a880a, type: 3}

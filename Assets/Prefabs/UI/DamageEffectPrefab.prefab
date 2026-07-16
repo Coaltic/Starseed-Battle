@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2286578260503871654}
   - component: {fileID: 7998119252382310598}
   m_Layer: 5
-  m_Name: HealthChangePrefab
+  m_Name: DamageEffectPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

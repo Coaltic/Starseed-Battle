@@ -5,8 +5,8 @@ public class Player1 : Player
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        health = 1000;
-        mp = 10;
+        maxHealth = 200;
+        maxMP = 10;
         strengthStat = 20;
         magicStat = 10;
         physicalDefenseStat = 20;
@@ -20,9 +20,21 @@ public class Player1 : Player
         myTurn = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        anim = GetComponent<Animator>();
+        health = maxHealth;
+        mp = maxMP;
+    }
+
+    // Update is called once per frame
+    public void Update()
+    {
+        if (this.infoPanel != null)
+        {
+            infoPanel.charName.text = this.characterName;
+            infoPanel.hpText.text = ("HP: " + this.health + "/" + this.maxHealth);
+            infoPanel.mpText.text = ("MP: " + this.mp + "/" + this.maxMP);
+        }
     }
 }

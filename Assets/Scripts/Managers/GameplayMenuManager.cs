@@ -14,7 +14,8 @@ public class GameplayMenuManager : MonoBehaviour
     public GameObject gameplayMenuHUD;
     public EventSystem eventSystem;
     public PlayerInventory playerInventory;
-    public GameObject healthPanelPrefab;
+    public GameObject characterInfoPanelPrefab;
+    public CharacterInfoPanel[] infoPanels;
     public bool isMenuDisabled;
 
     public List<GameObject> previousMenuScreensList = new List<GameObject>();
@@ -26,14 +27,7 @@ public class GameplayMenuManager : MonoBehaviour
     private void Awake()
     {
         playerInventory = GameObject.Find("GameManager").gameObject.GetComponent<PlayerInventory>();
-        // int gameplayButtonCount = gameplayMenuHUD.gameObject.transform.childCount;
-
-        /*activeMenuButtons = new Button[gameplayButtonCount];
-
-        for (int i = 0; i < gameplayButtonCount; i++)
-        {
-            activeMenuButtons[i] = gameplayMenuHUD.gameObject.transform.GetChild(i).gameObject.GetComponent<Button>();
-        }*/
+        
 
     }
     void Start()
@@ -93,7 +87,39 @@ public class GameplayMenuManager : MonoBehaviour
     {
         menuState = newState;
     }
+    public void OnClickStart(GameObject button)
+    {
+        _battleManager = Instantiate(BattleManager).GetComponent<BattleManager>();
 
+        ChangeMenuScreen(gameplayMenus[0], null);
+        
+        
+        Destroy(button);
+    }
+
+    public void SetInfoPanels()
+    {
+        GameObject charInfoPanelPrefab = Instantiate(characterInfoPanelPrefab);
+        charInfoPanelPrefab.gameObject.transform.SetParent(GameObject.Find("Char Info HUD").gameObject.transform, false);
+        infoPanels = new CharacterInfoPanel[charInfoPanelPrefab.gameObject.transform.childCount];
+        for (int i = 0; i < charInfoPanelPrefab.gameObject.transform.childCount; i++)
+        {
+            infoPanels[i] = charInfoPanelPrefab.gameObject.transform.GetChild(i).gameObject.GetComponent<CharacterInfoPanel>();
+            if (i < _battleManager.activePlayers.Length)
+            {
+                _battleManager.activePlayers[i].GetComponent<Player>().infoPanel = infoPanels[i];
+                infoPanels[i].gameObject.SetActive(true);
+                Debug.Log("Setting Pannel " + i + " Active");
+
+            }
+            else
+            {
+                Debug.Log("Setting Pannel " + i + " Inactive");
+                infoPanels[i].gameObject.SetActive(false);
+                Debug.Log("Active Player Length: " + _battleManager.activePlayers.Length);
+            }
+        }
+    }
 
     public void OnButtonClicked(string btnName)
     {
@@ -172,15 +198,7 @@ public class GameplayMenuManager : MonoBehaviour
         ChangeMenuScreen(gameplayMenus[3], gameplayMenus[0]);
     }
 
-    public void OnClickStart(GameObject button)
-    {
-        _battleManager = Instantiate(BattleManager).GetComponent<BattleManager>();
-
-        ChangeMenuScreen(gameplayMenus[0], null);
-        GameObject characterInfoPanel = Instantiate(healthPanelPrefab);
-        characterInfoPanel.gameObject.transform.SetParent(GameObject.Find("Char Info HUD").gameObject.transform, false);
-        Destroy(button);
-    }
+    
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {

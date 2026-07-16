@@ -39,12 +39,14 @@ public class BattleManager : MonoBehaviour
         turnActionText = GameObject.Find("Turn Action Text").gameObject.GetComponent<TMP_Text>();
         _tileManager = this.GetComponent<MoveableTileManager>();
         _gameplayMenuManager = GameObject.Find("GameplayMenuManager").gameObject.GetComponent<GameplayMenuManager>();
+        
     }
 
     void Start()
     {
         InitializeBattleCharacters();
         SetBattleOrder();
+        _gameplayMenuManager.SetInfoPanels();
     }
 
     // Update is called once per frame
@@ -168,7 +170,7 @@ public class BattleManager : MonoBehaviour
         GameObject health = Instantiate(overheadHealthPrefab);
         health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
         health.transform.localScale = new Vector3(1, 1, 1);
-        health.GetComponent<HealthChangeUI>().SetText(-turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
+        health.GetComponent<DamageEffect>().SetText(-turnOrderList[currentTurnNumber].GetComponent<Character>().strengthStat);
         health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
 
 

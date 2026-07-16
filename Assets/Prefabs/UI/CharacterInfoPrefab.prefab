@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 5357016962137443996}
   - component: {fileID: 2031374183376058743}
   - component: {fileID: 7723958781891159362}
+  - component: {fileID: 4633953474077087426}
   m_Layer: 5
   m_Name: Panel 1
   m_TagString: Untagged
@@ -292,6 +293,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4633953474077087426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358176682360675140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43364e925acd7304b813191eb99f4b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterInfoPanel
+  charName: {fileID: 0}
+  hpText: {fileID: 0}
+  hpBar: {fileID: 0}
+  mpText: {fileID: 0}
+  mpBar: {fileID: 0}
 --- !u!1 &745614569060006954
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +321,7 @@ GameObject:
   - component: {fileID: 2745903084900631311}
   - component: {fileID: 7392621540312359627}
   - component: {fileID: 8690948077709687197}
+  - component: {fileID: 2131623617440055925}
   m_Layer: 5
   m_Name: Panel 3
   m_TagString: Untagged
@@ -370,6 +389,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2131623617440055925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745614569060006954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43364e925acd7304b813191eb99f4b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterInfoPanel
+  charName: {fileID: 0}
+  hpText: {fileID: 0}
+  hpBar: {fileID: 0}
+  mpText: {fileID: 0}
+  mpBar: {fileID: 0}
 --- !u!1 &865011265809133315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1949,7 +1985,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7915968015116630751}
   m_Layer: 5
-  m_Name: Health Panel Prefab
+  m_Name: CharacterInfoPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2275,6 +2311,7 @@ GameObject:
   - component: {fileID: 1355176040889114376}
   - component: {fileID: 2318830103850788753}
   - component: {fileID: 8989594188747263046}
+  - component: {fileID: 178370886223827655}
   m_Layer: 5
   m_Name: Panel 2
   m_TagString: Untagged
@@ -2342,6 +2379,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &178370886223827655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8890348070343511603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43364e925acd7304b813191eb99f4b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterInfoPanel
+  charName: {fileID: 0}
+  hpText: {fileID: 0}
+  hpBar: {fileID: 0}
+  mpText: {fileID: 0}
+  mpBar: {fileID: 0}
 --- !u!1 &9209637586437786186
 GameObject:
   m_ObjectHideFlags: 0

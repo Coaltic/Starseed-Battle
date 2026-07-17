@@ -18,6 +18,8 @@ public class Player1 : Player
 
         characterName = "Player 1";
         myTurn = false;
+
+        knownSpellsComponents = new Spell[4];
     }
 
     void Start()
@@ -25,6 +27,7 @@ public class Player1 : Player
         anim = GetComponent<Animator>();
         health = maxHealth;
         mp = maxMP;
+        LearnSpell(SpellList.FullHeal, this);
     }
 
     // Update is called once per frame

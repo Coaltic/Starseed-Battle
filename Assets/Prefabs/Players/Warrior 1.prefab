@@ -68,7 +68,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0aa4aab52de7c341b31d2fa6ab5617e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player1
+  characterName: 
+  maxHealth: 0
   health: 0
+  maxMP: 0
   mp: 0
   strengthStat: 0
   magicStat: 0
@@ -82,9 +85,12 @@ MonoBehaviour:
   currentLocationTile: {fileID: 0}
   turnOrder: 0
   selectedForAttack: 0
-  characterName: 
+  knownSpells:
+  - spell: 0
+    spellScript: {fileID: 0}
   standardScale: {x: 0, y: 0}
   anim: {fileID: 0}
+  infoPanel: {fileID: 0}
 --- !u!1001 &802802715901286910
 PrefabInstance:
   m_ObjectHideFlags: 0

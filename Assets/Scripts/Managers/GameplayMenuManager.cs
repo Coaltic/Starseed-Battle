@@ -27,8 +27,6 @@ public class GameplayMenuManager : MonoBehaviour
     private void Awake()
     {
         playerInventory = GameObject.Find("GameManager").gameObject.GetComponent<PlayerInventory>();
-        
-
     }
     void Start()
     {
@@ -166,34 +164,46 @@ public class GameplayMenuManager : MonoBehaviour
 
     public void OnMagicClick()
     {
-        for (int i = 0; i < gameplayMenus[3].gameObject.transform.childCount; i++)
+        Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
+        for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)
             {
-                MakeBackButton(gameplayMenus[3]);
+                MakeBackButton(gameplayMenus[2]);
             }
-            else if (i <= _battleManager.activeEnemies.Length)
+            else if (i <= currentTurnChar.knownSpellsComponents.Length && currentTurnChar.knownSpellsComponents[i - 1] != null)
             {
-                Button btn = gameplayMenus[3].gameObject.transform.GetChild(i).GetComponent<Button>();
-                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.SetActive(true);
-                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i - 1].name;
-                GameObject target = _battleManager.activeEnemies[i - 1];
+                Debug.Log("not null");
+                Button btn = gameplayMenus[2].gameObject.transform.GetChild(i).GetComponent<Button>();
+                gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.SetActive(true);
+
+
+                
+                gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = currentTurnChar.knownSpellsComponents[i - 1].spellName;
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(delegate { SetEnemyAttackButton(target); });
+                btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, i) ; });
+                Debug.Log("i = " + i);
 
 
             }
             else
             {
-                gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.SetActive(false);
+                gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
-        ChangeMenuScreen(gameplayMenus[1], gameplayMenus[0]);
+        ChangeMenuScreen(gameplayMenus[2], gameplayMenus[0]);
     }
 
     public void SetEnemyAttackButton(GameObject target)
     {
         _battleManager.PhysicalAttack(target);
+        OnClickBack();
+    }
+
+    public void CastSpell(Character currentTurnChar, int spellNum)
+    {
+        Debug.Log("spellNum = " + spellNum);
+        currentTurnChar.knownSpellsComponents[0].SpellSelected();
         OnClickBack();
     }
 

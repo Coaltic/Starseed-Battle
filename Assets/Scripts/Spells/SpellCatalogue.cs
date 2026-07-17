@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class SpellCatalogue : MonoBehaviour
 {
-    public ExactSpell[] listOfSpells;
+    public SpellConstruct[] listOfSpells;
 
     private void Start()
     {
@@ -11,9 +11,9 @@ public class SpellCatalogue : MonoBehaviour
     }
 
     [System.Serializable]
-    public class ExactSpell
+    public class SpellConstruct
     {
-        public SpellList spell;
+        public SpellList spellName;
         public Spell spellScript;
     }
 
@@ -23,7 +23,9 @@ public class SpellCatalogue : MonoBehaviour
 public enum SpellList
 {
     FullHeal,
-    FireBall
+    FireBall,
+    SanguineSiphon,
+    NumberOfSpells
 }
 
 

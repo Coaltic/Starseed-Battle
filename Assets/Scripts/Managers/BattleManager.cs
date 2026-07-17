@@ -87,7 +87,7 @@ public class BattleManager : MonoBehaviour
 
     public void InitializeBattleCharacters()
     {
-        enemySpawnNumber = Random.Range(1, 5); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
+        enemySpawnNumber = Random.Range(4, 5); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
 
         activeEnemies = new GameObject[(enemySpawnNumber)];
 

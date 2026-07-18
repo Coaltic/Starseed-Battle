@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System;
 using TMPro;
 
 public class GameplayMenuManager : MonoBehaviour
@@ -165,6 +166,7 @@ public class GameplayMenuManager : MonoBehaviour
     public void OnMagicClick()
     {
         Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
+        int spellNum = 0;
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)
@@ -180,8 +182,9 @@ public class GameplayMenuManager : MonoBehaviour
 
                 
                 gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = currentTurnChar.knownSpellsComponents[i - 1].spellName;
+                btn.gameObject.AddComponent(currentTurnChar.knownSpellsComponents[i - 1].GetType());
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, i) ; });
+                btn.onClick.AddListener(delegate { CastSpell(btn, currentTurnChar) ; });
                 Debug.Log("i = " + i);
 
 
@@ -200,10 +203,10 @@ public class GameplayMenuManager : MonoBehaviour
         OnClickBack();
     }
 
-    public void CastSpell(Character currentTurnChar, int spellNum)
+    public void CastSpell(Button btn, Character character)
     {
-        Debug.Log("spellNum = " + spellNum);
-        currentTurnChar.knownSpellsComponents[0].SpellSelected();
+        btn.GetComponent<Spell>().SpellSelected(character);
+        // currentTurnChar.knownSpellsComponents[0].SpellSelected();
         OnClickBack();
     }
 

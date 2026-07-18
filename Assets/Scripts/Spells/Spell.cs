@@ -14,4 +14,9 @@ public class Spell : MonoBehaviour
 
     }
 
+    public virtual void SpellSelected(Character character)
+    {
+
+    }
+
 }

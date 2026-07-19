@@ -4,6 +4,8 @@ public class Player : Character
 {
     public CharacterInfoPanel infoPanel;
 
+    public int EXP;
+
     private void Start()
     {
     }

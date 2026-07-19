@@ -166,7 +166,6 @@ public class GameplayMenuManager : MonoBehaviour
     public void OnMagicClick()
     {
         Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
-        int spellNum = 0;
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)
@@ -182,10 +181,10 @@ public class GameplayMenuManager : MonoBehaviour
 
                 
                 gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = currentTurnChar.knownSpellsComponents[i - 1].spellName;
-                btn.gameObject.AddComponent(currentTurnChar.knownSpellsComponents[i - 1].GetType());
+                if (currentTurnChar.mp < currentTurnChar.knownSpellsComponents[i - 1].spellMPCost) btn.interactable = false;
+                else btn.interactable = true;
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(delegate { CastSpell(btn, currentTurnChar) ; });
-                Debug.Log("i = " + i);
+                btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, btn) ; });
 
 
             }
@@ -203,11 +202,18 @@ public class GameplayMenuManager : MonoBehaviour
         OnClickBack();
     }
 
-    public void CastSpell(Button btn, Character character)
+    public void CastSpell(Character character, Button btn)
     {
-        btn.GetComponent<Spell>().SpellSelected(character);
-        // currentTurnChar.knownSpellsComponents[0].SpellSelected();
+
+        int btnNum = btn.gameObject.transform.GetSiblingIndex() - 1;
+        Debug.Log("btnNum = " + btnNum);
+        character.knownSpellsComponents[0].SpellSelected(character);
         OnClickBack();
+    }
+
+    public void CastSpell(Character character, Character target)
+    {
+
     }
 
     public void OnItemClick()

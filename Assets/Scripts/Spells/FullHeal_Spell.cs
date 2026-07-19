@@ -11,9 +11,10 @@ public class FullHeal_Spell : Spell
 
     public override void SpellSelected(Character character)
     {
-        // Debug.Log("Full Heal Spell");
+        Debug.Log("Full Heal Spell");
         // Character character = this.gameObject.GetComponent<Character>();
         character.health = character.maxHealth;
+        character.mp -= spellMPCost;
         BattleManager _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
         _battleManager.EndOfTurn(character);
     }

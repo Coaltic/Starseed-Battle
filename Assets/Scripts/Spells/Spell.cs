@@ -3,10 +3,14 @@ using UnityEngine;
 [System.Serializable]
 public class Spell : MonoBehaviour
 {
+
+
     public string spellName;
     public string spellDescription;
     public int spellDuration;
     public int spellMPCost;
+
+    public bool doesRequireTarget;
 
 
     public virtual void SpellSelected()
@@ -14,7 +18,12 @@ public class Spell : MonoBehaviour
 
     }
 
-    public virtual void SpellSelected(Character character)
+    public virtual void SpellSelected(Character currentTurnChar)
+    {
+
+    }
+
+    public virtual void SpellSelected(Character currentTurnChar, Character target)
     {
 
     }

@@ -174,7 +174,6 @@ public class GameplayMenuManager : MonoBehaviour
             }
             else if (i <= currentTurnChar.knownSpellsComponents.Length && currentTurnChar.knownSpellsComponents[i - 1] != null)
             {
-                Debug.Log("not null");
                 Button btn = gameplayMenus[2].gameObject.transform.GetChild(i).GetComponent<Button>();
                 gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.SetActive(true);
 
@@ -184,7 +183,18 @@ public class GameplayMenuManager : MonoBehaviour
                 if (currentTurnChar.mp < currentTurnChar.knownSpellsComponents[i - 1].spellMPCost) btn.interactable = false;
                 else btn.interactable = true;
                 btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, btn) ; });
+
+                int spellNum = i - 1;
+                if (!currentTurnChar.knownSpellsComponents[i - 1].doesRequireTarget)
+                {
+                    Debug.Log("Full Heal OnMagicClick spellNum = " + spellNum);
+                    btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, spellNum); });
+                }
+                else
+                {
+                    btn.onClick.AddListener(delegate { SetEnemyMagicTarget(currentTurnChar, spellNum); });
+                    Debug.Log("Saguine Siphon OnMagicClick spellNum = " + spellNum);
+                }
 
 
             }
@@ -202,18 +212,46 @@ public class GameplayMenuManager : MonoBehaviour
         OnClickBack();
     }
 
-    public void CastSpell(Character character, Button btn)
+    public void SetEnemyMagicTarget(Character currentTurnChar, int spellNum)
+    {
+        for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
+        {
+            if (i == 0)
+            {
+                // MakeBackButton(gameplayMenus[2]);
+            }
+            else if (i <= _battleManager.activeEnemies.Length)
+            {
+                Button btn = gameplayMenus[2].gameObject.transform.GetChild(i).GetComponent<Button>();
+                gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.SetActive(true);
+                gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i - 1].name;
+                GameObject target = _battleManager.activeEnemies[i - 1];
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, spellNum, target.GetComponent<Character>()); });
+                Debug.Log("SetEnemyMagicTarget spellNum = " + spellNum);
+
+            }
+            else
+            {
+                gameplayMenus[2].gameObject.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+        // ChangeMenuScreen(gameplayMenus[1], gameplayMenus[0]);
+    }
+
+    public void CastSpell(Character character, int spellNum)
     {
 
-        int btnNum = btn.gameObject.transform.GetSiblingIndex() - 1;
-        Debug.Log("btnNum = " + btnNum);
-        character.knownSpellsComponents[0].SpellSelected(character);
+        // Debug.Log("btnNum = " + btnNum);
+        character.knownSpellsComponents[spellNum].SpellSelected(character);
         OnClickBack();
     }
 
-    public void CastSpell(Character character, Character target)
+    public void CastSpell(Character character, int spellNum, Character target)
     {
-
+        Debug.Log("CastSpell spellNum = " + spellNum);
+        character.knownSpellsComponents[spellNum].SpellSelected(character, target);
+        OnClickBack();
     }
 
     public void OnItemClick()

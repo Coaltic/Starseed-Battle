@@ -10460,7 +10460,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72.8
+  m_fontSize: 72.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10499,7 +10499,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 10, y: 10, z: 0, w: 0}
+  m_margin: {x: 10, y: 20, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -14469,7 +14469,7 @@ PrefabInstance:
     - target: {fileID: 1042330429228669731, guid: c89f6bd316c029744aafa2803cf7e635, type: 3}
       propertyPath: listOfSpells.Array.data[1].spellScript
       value: 
-      objectReference: {fileID: 4571501890284326467, guid: e4a5810072252fd4086c5ee59efc9b1f, type: 3}
+      objectReference: {fileID: 6308417840883494624, guid: ba2b0989e30c93144a78416ac19cb74f, type: 3}
     - target: {fileID: 3039593848612829916, guid: c89f6bd316c029744aafa2803cf7e635, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

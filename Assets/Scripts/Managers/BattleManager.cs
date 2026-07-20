@@ -185,17 +185,20 @@ public class BattleManager : MonoBehaviour
 
         turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
 
-        EndOfTurn(target.gameObject.GetComponent<Character>());
+        EndOfTurn();
     }
 
-    public void EndOfTurn(Character character)
+    public void EndOfTurn()
     {
+        for (int i = 0; i < turnOrderList.Count; i++)
+        {
+            if (turnOrderList[i].GetComponent<Character>().health <= 0) DeathOfCharacter(turnOrderList[i].GetComponent<Character>());
+        }
 
         isAttackCooldownActive = true;
         if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
         else currentTurnNumber++;
         turnNumberText.text = currentTurnNumber.ToString();
-        if (character.health <= 0) DeathOfCharacter(character);
         onceATurn = true;
     }
 

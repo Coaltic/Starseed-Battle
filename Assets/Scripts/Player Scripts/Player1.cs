@@ -28,6 +28,7 @@ public class Player1 : Player
         health = maxHealth;
         mp = maxMP;
         LearnSpell(SpellList.FullHeal, this);
+        LearnSpell(SpellList.SanguineSiphon, this);
     }
 
     // Update is called once per frame

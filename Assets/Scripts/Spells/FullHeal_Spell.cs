@@ -5,8 +5,8 @@ public class FullHeal_Spell : Spell
     public void Awake()
     {
         spellName = "Full Heal";
-        Debug.Log("Awake");
         spellMPCost = 4;
+        doesRequireTarget = false;
     }
 
     public override void SpellSelected(Character character)
@@ -16,7 +16,7 @@ public class FullHeal_Spell : Spell
         character.health = character.maxHealth;
         character.mp -= spellMPCost;
         BattleManager _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
-        _battleManager.EndOfTurn(character);
+        _battleManager.EndOfTurn();
     }
     
 }

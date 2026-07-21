@@ -46,7 +46,6 @@ public class Character : MonoBehaviour
     public int CalculateDamage(Character target)
     {
         int damage = Random.Range((strengthStat / 2), (strengthStat * 2));
-        Debug.Log("Calculated damage = " + damage);
         if (target.isDefending == false) return damage;
         else return damage / 2;
     }

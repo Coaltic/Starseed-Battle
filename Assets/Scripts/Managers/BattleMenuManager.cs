@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System;
@@ -7,7 +8,8 @@ using TMPro;
 
 public class BattleMenuManager : MonoBehaviour
 {
-    public MenuState menuState;
+    public MenuState previousMenuState;
+    public MenuState currentMenuState;
     public GameObject startButton;
 
     public GameObject[] gameplayMenus;
@@ -16,6 +18,8 @@ public class BattleMenuManager : MonoBehaviour
     public EventSystem eventSystem;
     public PlayerInventory playerInventory;
     public GameObject characterInfoPanelPrefab;
+    public GameObject[] enemyIndicationArrows;
+    public GameObject currentlySelectedButton;
     public CharacterInfoPanel[] infoPanels;
     public bool isMenuDisabled;
 
@@ -32,12 +36,13 @@ public class BattleMenuManager : MonoBehaviour
     void Start()
     {
         SwitchState(MenuState.Start);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (menuState)
+        switch (currentMenuState)
         {
 
             case MenuState.NotYourTurn:
@@ -46,17 +51,16 @@ public class BattleMenuManager : MonoBehaviour
                 break;
 
             case MenuState.Main:
-                // Debug.Log("State: Main");
-                // if (eventSystem.currentSelectedGameObject == null) eventSystem.firstSelectedGameObject = gameplayButtons[0].gameObject;
+                ClearIndicationArrows();
                 break;
 
             case MenuState.Attack:
-                // Debug.Log("State: Attack");
+                UpdateIndicationArrows();
 
                 break;
 
             case MenuState.Magic:
-               //  Debug.Log("State: Magic");
+                UpdateIndicationArrows();
 
                 break;
 
@@ -82,14 +86,15 @@ public class BattleMenuManager : MonoBehaviour
         }
     }
 
-    void SwitchState(MenuState newState)
+    public void SwitchState(MenuState newState)
     {
-        menuState = newState;
+        previousMenuState = currentMenuState;
+        currentMenuState = newState;
     }
     public void OnClickStart(GameObject button)
     {
         _battleManager = Instantiate(BattleManager).GetComponent<BattleManager>();
-
+        SwitchState(MenuState.Main);
         ChangeMenuScreen(gameplayMenus[0], null);
         
         
@@ -114,6 +119,39 @@ public class BattleMenuManager : MonoBehaviour
             {
                 infoPanels[i].gameObject.SetActive(false);
             }
+        }
+    }
+
+    public void SetIndicationArrows()
+    {
+        enemyIndicationArrows = new GameObject[_battleManager.activeEnemies.Length];
+        for (int i = 0; i < enemyIndicationArrows.Length; i++)
+        {
+            enemyIndicationArrows[i] = _battleManager.activeEnemies[i].transform.GetChild(1).gameObject;
+        }
+    }
+
+    public void UpdateIndicationArrows()
+    {
+        currentlySelectedButton = EventSystem.current.currentSelectedGameObject;
+
+        if (currentlySelectedButton.transform.GetSiblingIndex() - 1 >= 0)
+        {
+            enemyIndicationArrows[currentlySelectedButton.transform.GetSiblingIndex() - 1].gameObject.SetActive(true);  // _battleManager.activeEnemies[currentlySelectedButton.transform.GetSiblingIndex() - 1].transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+
+        for (int i = 0; i < enemyIndicationArrows.Length; i++)
+        {
+            if (i != currentlySelectedButton.transform.GetSiblingIndex() - 1) enemyIndicationArrows[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void ClearIndicationArrows()
+    {
+        for (int i = 0; i < enemyIndicationArrows.Length; i++)
+        {
+            enemyIndicationArrows[i].gameObject.SetActive(false);
         }
     }
 
@@ -149,6 +187,7 @@ public class BattleMenuManager : MonoBehaviour
                 gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.SetActive(true);
                 gameplayMenus[1].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = _battleManager.activeEnemies[i - 1].name;
                 GameObject target = _battleManager.activeEnemies[i - 1];
+
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(delegate { SetEnemyAttackButton(target); });
 
@@ -164,6 +203,7 @@ public class BattleMenuManager : MonoBehaviour
 
     public void OnMagicClick()
     {
+        // SwitchState(MenuState.Magic);
         Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
@@ -186,13 +226,11 @@ public class BattleMenuManager : MonoBehaviour
                 int spellNum = i - 1;
                 if (!currentTurnChar.knownSpellsComponents[i - 1].doesRequireTarget)
                 {
-                    Debug.Log("Full Heal OnMagicClick spellNum = " + spellNum);
                     btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, spellNum); });
                 }
                 else
                 {
                     btn.onClick.AddListener(delegate { SetEnemyMagicTarget(currentTurnChar, spellNum); });
-                    Debug.Log("Saguine Siphon OnMagicClick spellNum = " + spellNum);
                 }
 
 
@@ -244,6 +282,7 @@ public class BattleMenuManager : MonoBehaviour
 
     public void SetEnemyMagicTarget(Character currentTurnChar, int spellNum)
     {
+        SwitchState(MenuState.Magic);
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)
@@ -258,7 +297,6 @@ public class BattleMenuManager : MonoBehaviour
                 GameObject target = _battleManager.activeEnemies[i - 1];
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(delegate { CastSpell(currentTurnChar, spellNum, target.GetComponent<Character>()); });
-                Debug.Log("SetEnemyMagicTarget spellNum = " + spellNum);
 
             }
             else
@@ -286,6 +324,7 @@ public class BattleMenuManager : MonoBehaviour
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {
+        SwitchState(previousMenuState);
         previousMenuScreen.SetActive(false);
         newMenuScreen.SetActive(true);
         previousMenuScreensList.Remove(previousMenuScreen);

@@ -15,6 +15,7 @@ public class BattleManager : MonoBehaviour
     public GameObject[] activePlayers;
     public GameObject[] activeEnemies;
     public GameObject overheadHealthPrefab;
+    public GameObject indicationArrowPrefab;
 
     public List<GameObject> turnOrderList;
     public Character[] currentTurn;
@@ -49,6 +50,7 @@ public class BattleManager : MonoBehaviour
         InitializeBattleCharacters();
         SetBattleOrder();
         _battleMenuManager.SetInfoPanels();
+        _battleMenuManager.SetIndicationArrows();
     }
 
     // Update is called once per frame
@@ -97,11 +99,12 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < enemySpawnNumber; i++)
         {
             enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
-            // Debug.Log("Loading Enemy:" + enemyPrefabs[enemyIDNumber].name);
 
             activeEnemies[i] = Instantiate(enemyPrefabs[enemyIDNumber]);
-            activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName + " " + i;
-
+            activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName;
+            GameObject thisArrow = Instantiate(indicationArrowPrefab);
+            thisArrow.transform.SetParent(activeEnemies[i].transform);
+            thisArrow.transform.position = new Vector2(thisArrow.transform.position.x, thisArrow.transform.parent.GetComponentInChildren<SpriteRenderer>().bounds.size.y);
             _tileManager.SetEnemySpawnLocation(activeEnemies[i].GetComponent<Enemy>());
             SpawnEnemy(activeEnemies[i].GetComponent<Enemy>());
 
@@ -184,14 +187,18 @@ public class BattleManager : MonoBehaviour
         health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
 
 
-
+        if (currentTurnChar.tag == "Player") Debug.Log("Changed action text above");
         turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
+        if (currentTurnChar.tag == "Player") Debug.Log("Changed action text below");
 
+        if (currentTurnChar.tag == "Player") Debug.Log("CALLING END OF TURN");
         EndOfTurn();
     }
 
     public void EndOfTurn()
     {
+        _battleMenuManager.SwitchState(MenuState.Main);
+        if (currentTurnChar.tag == "Player") Debug.Log("END OF TURN");
         for (int i = 0; i < turnOrderList.Count; i++)
         {
             if (turnOrderList[i].GetComponent<Character>().health <= 0) DeathOfCharacter(turnOrderList[i].GetComponent<Character>());

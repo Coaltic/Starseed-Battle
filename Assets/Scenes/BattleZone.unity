@@ -5835,6 +5835,8 @@ MonoBehaviour:
   eventSystem: {fileID: 519002220}
   playerInventory: {fileID: 0}
   characterInfoPanelPrefab: {fileID: 6109495567746941337, guid: d67cc5fb2178797449e2d821f91e7a7c, type: 3}
+  enemyIndicationArrows: []
+  currentlySelectedButton: {fileID: 0}
   infoPanels: []
   isMenuDisabled: 0
   previousMenuScreensList: []

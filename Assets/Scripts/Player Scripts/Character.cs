@@ -17,6 +17,7 @@ public class Character : MonoBehaviour
     public int evasionStat;
 
     public bool myTurn;
+    public bool isDefending;
 
     public MoveableTile currentLocationTile;
     public int turnOrder;
@@ -39,11 +40,15 @@ public class Character : MonoBehaviour
     public void OnceATurn()
     {
         if (this.mp < this.maxMP) mp++;
+        if (isDefending) isDefending = false;
     }
 
-    public int CalculateDamage()
+    public int CalculateDamage(Character target)
     {
-        return (Random.Range((strengthStat / 2), strengthStat * 2));
+        int damage = Random.Range((strengthStat / 2), (strengthStat * 2));
+        Debug.Log("Calculated damage = " + damage);
+        if (target.isDefending == false) return damage;
+        else return damage / 2;
     }
 
     public void LearnSpell(SpellList newSpell, Character character)

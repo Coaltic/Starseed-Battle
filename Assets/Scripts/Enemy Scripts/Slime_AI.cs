@@ -5,9 +5,9 @@ public class Slime_AI : Enemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        health = 10;
+        health = 25;
         mp = 10;
-        strengthStat = 20;
+        strengthStat = 15;
         magicStat = 20;
         physicalDefenseStat = 10;
         magicDefenseStat = 10;

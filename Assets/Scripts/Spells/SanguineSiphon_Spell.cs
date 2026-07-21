@@ -12,9 +12,9 @@ public class SanguineSiphon_Spell : Spell
     public override void SpellSelected(Character currentTurnChar, Character target)
     {
         BattleManager _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
-        int damageDelt = currentTurnChar.GetComponent<Character>().CalculateDamage();
-        target.gameObject.GetComponent<Character>().health += -(damageDelt);
-        target.gameObject.GetComponent<Character>().StartKnockBackEffect();
+        int damageDelt = currentTurnChar.CalculateDamage(target);
+        target.health += -(damageDelt);
+        target.StartKnockBackEffect();
         GameObject health = Instantiate(_battleManager.overheadHealthPrefab);
         health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
         health.transform.localScale = new Vector3(1, 1, 1);

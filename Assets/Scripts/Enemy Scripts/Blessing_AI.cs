@@ -5,7 +5,7 @@ public class Blessing_AI : Enemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        health = 10;
+        health = 40;
         mp = 10;
         strengthStat = 25;
         magicStat = 20;

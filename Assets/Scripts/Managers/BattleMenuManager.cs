@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using TMPro;
 
-public class GameplayMenuManager : MonoBehaviour
+public class BattleMenuManager : MonoBehaviour
 {
     public MenuState menuState;
     public GameObject startButton;
@@ -133,7 +133,6 @@ public class GameplayMenuManager : MonoBehaviour
         ChangeMenuScreenBack(previousMenuScreensList[previousMenuScreensList.Count - 2], previousMenuScreensList[previousMenuScreensList.Count - 1]);
     }
 
-
     public void OnAttackClick()
     {
         SwitchState(MenuState.Attack);
@@ -206,6 +205,37 @@ public class GameplayMenuManager : MonoBehaviour
         ChangeMenuScreen(gameplayMenus[2], gameplayMenus[0]);
     }
 
+    public void OnItemClick()
+    {
+        SwitchState(MenuState.Item);
+        // MakeBackButton(gameplayMenus[3]);
+        for (int i = 0; i < playerInventory.inventoryItems.Count; i++)
+        {
+            if (i == 0)
+            {
+                MakeBackButton(gameplayMenus[3]);
+            }
+            else if (playerInventory.inventoryItems[i] != null)
+            {
+
+                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.SetActive(true);
+                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = playerInventory.inventoryItems[i];
+
+            }
+            else
+            {
+                // gameplayMenus[3].gameObject.SetActive(false);
+            }
+        }
+        ChangeMenuScreen(gameplayMenus[3], gameplayMenus[0]);
+    }
+
+    public void OnDefendClick()
+    {
+        _battleManager.currentTurnChar.isDefending = true;
+        _battleManager.EndOfTurn();
+    }
+
     public void SetEnemyAttackButton(GameObject target)
     {
         _battleManager.PhysicalAttack(target);
@@ -253,33 +283,6 @@ public class GameplayMenuManager : MonoBehaviour
         character.knownSpellsComponents[spellNum].SpellSelected(character, target);
         OnClickBack();
     }
-
-    public void OnItemClick()
-    {
-        SwitchState(MenuState.Item);
-        // MakeBackButton(gameplayMenus[3]);
-        for (int i = 0; i < playerInventory.inventoryItems.Count; i++)
-        {
-            if (i == 0)
-            {
-                MakeBackButton(gameplayMenus[3]);
-            }
-            else if (playerInventory.inventoryItems[i] != null)
-            {
-
-                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.SetActive(true);
-                gameplayMenus[3].gameObject.transform.GetChild(i).gameObject.transform.GetComponentInChildren<TMP_Text>().text = playerInventory.inventoryItems[i];
-                
-            }
-            else
-            {
-                // gameplayMenus[3].gameObject.SetActive(false);
-            }
-        }
-        ChangeMenuScreen(gameplayMenus[3], gameplayMenus[0]);
-    }
-
-    
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {

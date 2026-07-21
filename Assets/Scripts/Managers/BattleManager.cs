@@ -18,6 +18,7 @@ public class BattleManager : MonoBehaviour
 
     public List<GameObject> turnOrderList;
     public Character[] currentTurn;
+    public Character currentTurnChar;
     public int currentTurnNumber;
 
     public int enemyIDNumber;
@@ -30,7 +31,7 @@ public class BattleManager : MonoBehaviour
     public bool onceATurn;
 
     public MoveableTileManager _tileManager;
-    public GameplayMenuManager _gameplayMenuManager;
+    public BattleMenuManager _battleMenuManager;
 
     //private Random rng = new Random();
 
@@ -39,7 +40,7 @@ public class BattleManager : MonoBehaviour
         turnNumberText = GameObject.Find("Turn Number Text").gameObject.GetComponent<TMP_Text>();
         turnActionText = GameObject.Find("Turn Action Text").gameObject.GetComponent<TMP_Text>();
         _tileManager = this.GetComponent<MoveableTileManager>();
-        _gameplayMenuManager = GameObject.Find("GameplayMenuManager").gameObject.GetComponent<GameplayMenuManager>();
+        _battleMenuManager = GameObject.Find("GameManager/BattleMenuManager").gameObject.GetComponent<BattleMenuManager>();
         
     }
 
@@ -47,7 +48,7 @@ public class BattleManager : MonoBehaviour
     {
         InitializeBattleCharacters();
         SetBattleOrder();
-        _gameplayMenuManager.SetInfoPanels();
+        _battleMenuManager.SetInfoPanels();
     }
 
     // Update is called once per frame
@@ -56,22 +57,23 @@ public class BattleManager : MonoBehaviour
         if (isBattleActive)
         {
             if (currentTurnNumber >= currentTurn.Length) currentTurnNumber = 0;
-            if (currentTurn[currentTurnNumber].tag == "Player" && isAttackCooldownActive == false)
+            currentTurnChar = currentTurn[currentTurnNumber];
+            if (currentTurnChar.tag == "Player" && isAttackCooldownActive == false)
             {
                 if (onceATurn)
                 {
-                    currentTurn[currentTurnNumber].OnceATurn();
+                    currentTurnChar.OnceATurn();
                     onceATurn = false;
                 }
                 
-                _gameplayMenuManager.EnableActiveMenuButtons();
+                _battleMenuManager.EnableActiveMenuButtons();
             }
-            if (currentTurn[currentTurnNumber].tag == "Enemy")
+            if (currentTurnChar.tag == "Enemy")
             {
-                _gameplayMenuManager.DisableActiveMenuButtons();
+                _battleMenuManager.DisableActiveMenuButtons();
                 if (isAttackCooldownActive == false)
                 {
-                    currentTurn[currentTurnNumber].GetComponent<Enemy>().PickAttack(activePlayers, this);
+                    currentTurnChar.GetComponent<Enemy>().PickAttack(activePlayers, this);
                 }
             }
 
@@ -172,7 +174,7 @@ public class BattleManager : MonoBehaviour
 
     public void PhysicalAttack(GameObject target)
     {
-        int damageDelt = turnOrderList[currentTurnNumber].GetComponent<Character>().CalculateDamage();
+        int damageDelt = turnOrderList[currentTurnNumber].GetComponent<Character>().CalculateDamage(target.GetComponent<Character>());
         target.gameObject.GetComponent<Character>().health += -(damageDelt);
         target.gameObject.GetComponent<Character>().StartKnockBackEffect();
         GameObject health = Instantiate(overheadHealthPrefab);

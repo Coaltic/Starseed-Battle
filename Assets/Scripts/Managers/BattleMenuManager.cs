@@ -24,6 +24,7 @@ public class BattleMenuManager : MonoBehaviour
     public bool isMenuDisabled;
 
     public List<GameObject> previousMenuScreensList = new List<GameObject>();
+    public List<MenuState> menuStateList;
 
     public GameObject BattleManager;
     public BattleManager _battleManager;
@@ -60,6 +61,10 @@ public class BattleMenuManager : MonoBehaviour
                 break;
 
             case MenuState.Magic:
+
+                break;
+
+            case MenuState.PickingTarget:
                 UpdateIndicationArrows();
 
                 break;
@@ -88,8 +93,13 @@ public class BattleMenuManager : MonoBehaviour
 
     public void SwitchState(MenuState newState)
     {
-        previousMenuState = currentMenuState;
         currentMenuState = newState;
+        menuStateList.Add(currentMenuState);
+    }
+
+    public void SwitchStateBack()
+    {
+        currentMenuState = menuStateList[menuStateList.Count - 1];
     }
     public void OnClickStart(GameObject button)
     {
@@ -203,7 +213,7 @@ public class BattleMenuManager : MonoBehaviour
 
     public void OnMagicClick()
     {
-        // SwitchState(MenuState.Magic);
+        SwitchState(MenuState.Magic);
         Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
@@ -282,7 +292,7 @@ public class BattleMenuManager : MonoBehaviour
 
     public void SetEnemyMagicTarget(Character currentTurnChar, int spellNum)
     {
-        SwitchState(MenuState.Magic);
+        SwitchState(MenuState.PickingTarget);
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)
@@ -324,7 +334,8 @@ public class BattleMenuManager : MonoBehaviour
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {
-        SwitchState(previousMenuState);
+        menuStateList.Remove(menuStateList[menuStateList.Count - 1]);
+        SwitchStateBack();
         previousMenuScreen.SetActive(false);
         newMenuScreen.SetActive(true);
         previousMenuScreensList.Remove(previousMenuScreen);
@@ -400,6 +411,7 @@ public enum MenuState
     Main,
     Attack,
     Magic,
+    PickingTarget,
     Item,
     Defend,
     SwapCharacter,

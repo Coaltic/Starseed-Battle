@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class DamageEffect : MonoBehaviour
+public class HealthChangePrefab : MonoBehaviour
 {
     public GameObject damageEffectObject;
     public TMP_Text damageEffectText;
@@ -38,6 +38,13 @@ public class DamageEffect : MonoBehaviour
             damageEffectText.color = Color.red;
             damageEffectText.text = hpText.ToString();
         }
+
+        if (hpText > 0)
+        {
+            damageEffectText.color = Color.green;
+            damageEffectText.text = hpText.ToString();
+        }
+
     }
     void FadeOut()
     {

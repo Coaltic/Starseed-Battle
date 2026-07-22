@@ -7,15 +7,15 @@ public class FullHeal_Spell : Spell
         spellName = "Full Heal";
         spellMPCost = 4;
         doesRequireTarget = false;
+
+        _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
     }
 
     public override void SpellSelected(Character character)
     {
-        Debug.Log("Full Heal Spell");
-        // Character character = this.gameObject.GetComponent<Character>();
-        character.health = character.maxHealth;
+        character.HealHealth(character.maxHealth - character.health);
         character.mp -= spellMPCost;
-        BattleManager _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
+
         _battleManager.EndOfTurn();
     }
     

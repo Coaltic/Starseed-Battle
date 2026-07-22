@@ -177,19 +177,9 @@ public class BattleManager : MonoBehaviour
 
     public void PhysicalAttack(GameObject target)
     {
-        int damageDelt = turnOrderList[currentTurnNumber].GetComponent<Character>().CalculateDamage(target.GetComponent<Character>());
-        target.gameObject.GetComponent<Character>().health += -(damageDelt);
-        target.gameObject.GetComponent<Character>().StartKnockBackEffect();
-        GameObject health = Instantiate(overheadHealthPrefab);
-        health.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
-        health.transform.localScale = new Vector3(1, 1, 1);
-        health.GetComponent<DamageEffect>().SetText(-damageDelt);
-        health.gameObject.transform.position = new Vector3(target.transform.position.x, target.transform.position.y + 1.0f, target.transform.position.z);
+        target.GetComponent<Character>().TakeDamage(turnOrderList[currentTurnNumber].GetComponent<Character>());
 
-
-        if (currentTurnChar.tag == "Player") Debug.Log("Changed action text above");
         turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
-        if (currentTurnChar.tag == "Player") Debug.Log("Changed action text below");
 
         if (currentTurnChar.tag == "Player") Debug.Log("CALLING END OF TURN");
         EndOfTurn();
@@ -197,7 +187,7 @@ public class BattleManager : MonoBehaviour
 
     public void EndOfTurn()
     {
-        _battleMenuManager.SwitchState(MenuState.Main);
+        // _battleMenuManager.SwitchState(MenuState.Main);
         if (currentTurnChar.tag == "Player") Debug.Log("END OF TURN");
         for (int i = 0; i < turnOrderList.Count; i++)
         {
@@ -216,6 +206,7 @@ public class BattleManager : MonoBehaviour
         int tempPlayerIncrement = 0;
         int tempEnemyIncrement = 0;
         if (character.turnOrder < currentTurnNumber) currentTurnNumber--;
+
         if (character.tag == "Player") character.GetComponent<Player>().UpdateInfoBars();
         character.gameObject.SetActive(false);
         turnOrderList.Remove(character.gameObject);
@@ -239,6 +230,8 @@ public class BattleManager : MonoBehaviour
             currentTurn[i].turnOrder = i;
             
         }
+
+        _battleMenuManager.SetIndicationArrows();
 
         if (activeEnemies.Length == 0) BattleWon();
         if (activePlayers.Length == 0) BattleLost();

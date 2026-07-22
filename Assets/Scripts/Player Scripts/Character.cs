@@ -22,6 +22,7 @@ public class Character : MonoBehaviour
     public MoveableTile currentLocationTile;
     public int turnOrder;
     public bool selectedForAttack;
+    public GameObject healthChangePrefab;
 
     public Spell[] knownSpellsComponents;
 
@@ -43,10 +44,46 @@ public class Character : MonoBehaviour
         if (isDefending) isDefending = false;
     }
 
-    public int CalculateDamage(Character target)
+    public void TakeDamage(Character attacker)
     {
-        int damage = Random.Range((strengthStat / 2), (strengthStat * 2));
-        if (target.isDefending == false) return damage;
+        int damageDelt = CalculateDamage(attacker);
+        this.health += -(damageDelt);
+        StartKnockBackEffect();
+        GameObject healthObject = Instantiate(healthChangePrefab);
+        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        healthObject.transform.localScale = new Vector3(1, 1, 1);
+        healthObject.GetComponent<HealthChangePrefab>().SetText(-damageDelt);
+        healthObject.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+    }
+
+    public void TakeDamage(int damageDelt)
+    {
+        this.health += -(damageDelt);
+        StartKnockBackEffect();
+        GameObject healthObject = Instantiate(healthChangePrefab);
+        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        healthObject.transform.localScale = new Vector3(1, 1, 1);
+        healthObject.GetComponent<HealthChangePrefab>().SetText(-damageDelt);
+        healthObject.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+    }
+
+    public void HealHealth(int healthAmount)
+    {
+        this.health += healthAmount;
+        if (this.health > this.maxHealth) this.health = this.maxHealth;
+
+        GameObject healthObject = Instantiate(healthChangePrefab);
+        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        healthObject.transform.localScale = new Vector3(1, 1, 1);
+        healthObject.GetComponent<HealthChangePrefab>().SetText(healthAmount);
+        healthObject.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+
+    }
+
+    public int CalculateDamage(Character attacker)
+    {
+        int damage = Random.Range((attacker.strengthStat / 2), (attacker.strengthStat * 2));
+        if (isDefending == false) return damage;
         else return damage / 2;
     }
 

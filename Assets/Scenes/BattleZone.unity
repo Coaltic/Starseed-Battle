@@ -5820,7 +5820,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc28b0ae1ee567488bedd1ed84d261d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameplayMenuManager
-  menuState: 0
+  previousMenuState: 0
+  currentMenuState: 0
   startButton: {fileID: 2025659150}
   gameplayMenus:
   - {fileID: 959370785}
@@ -5840,6 +5841,7 @@ MonoBehaviour:
   infoPanels: []
   isMenuDisabled: 0
   previousMenuScreensList: []
+  menuStateList: 
   BattleManager: {fileID: 2068029061250692545, guid: 12634bbfd63e21b419ebbd06de3a880a, type: 3}
   _battleManager: {fileID: 0}
 --- !u!4 &897206631
@@ -11242,7 +11244,7 @@ GameObject:
   - component: {fileID: 1823189341}
   - component: {fileID: 1823189340}
   m_Layer: 5
-  m_Name: Run Away Menu
+  m_Name: Interactive Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11270,7 +11272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -479.99994, y: 0}
+  m_AnchoredPosition: {x: -480.00006, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1823189340

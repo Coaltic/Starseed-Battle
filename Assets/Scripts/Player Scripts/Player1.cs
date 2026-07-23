@@ -7,7 +7,7 @@ public class Player1 : Player
     {
         maxHealth = 2000;
         maxMP = 10;
-        strengthStat = 200;
+        strengthStat = 20;
         magicStat = 10;
         physicalDefenseStat = 20;
         magicDefenseStat = 10;

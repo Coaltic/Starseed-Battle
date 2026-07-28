@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
     public bool onceATurn;
 
     public MoveableTileManager _tileManager;
-    public BattleMenuManager _battleMenuManager;
+    public ButtonManager _buttonManager;
 
     //private Random rng = new Random();
 
@@ -41,7 +41,7 @@ public class BattleManager : MonoBehaviour
         turnNumberText = GameObject.Find("Turn Number Text").gameObject.GetComponent<TMP_Text>();
         turnActionText = GameObject.Find("Turn Action Text").gameObject.GetComponent<TMP_Text>();
         _tileManager = this.GetComponent<MoveableTileManager>();
-        _battleMenuManager = GameObject.Find("GameManager/BattleMenuManager").gameObject.GetComponent<BattleMenuManager>();
+        _buttonManager = GameObject.Find("HUD CANVAS").gameObject.GetComponent<ButtonManager>();
         
     }
 
@@ -49,8 +49,8 @@ public class BattleManager : MonoBehaviour
     {
         InitializeBattleCharacters();
         SetBattleOrder();
-        _battleMenuManager.SetInfoPanels();
-        _battleMenuManager.SetIndicationArrows();
+        _buttonManager.SetInfoPanels();
+        _buttonManager.SetIndicationArrows();
     }
 
     // Update is called once per frame
@@ -68,11 +68,11 @@ public class BattleManager : MonoBehaviour
                     onceATurn = false;
                 }
                 
-                _battleMenuManager.EnableActiveMenuButtons();
+                _buttonManager.EnableActiveMenuButtons();
             }
             if (currentTurnChar.tag == "Enemy")
             {
-                _battleMenuManager.DisableActiveMenuButtons();
+                _buttonManager.DisableActiveMenuButtons();
                 if (isAttackCooldownActive == false)
                 {
                     currentTurnChar.GetComponent<Enemy>().PickAttack(activePlayers, this);
@@ -231,7 +231,7 @@ public class BattleManager : MonoBehaviour
             
         }
 
-        _battleMenuManager.SetIndicationArrows();
+        _buttonManager.SetIndicationArrows();
 
         if (activeEnemies.Length == 0) BattleWon();
         if (activePlayers.Length == 0) BattleLost();

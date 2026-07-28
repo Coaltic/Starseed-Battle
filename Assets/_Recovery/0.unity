@@ -9973,7 +9973,7 @@ PrefabInstance:
       objectReference: {fileID: 519420031}
     - target: {fileID: 7517000090722603880, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
       propertyPath: startButton

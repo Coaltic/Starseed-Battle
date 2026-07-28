@@ -50,7 +50,7 @@ public class Character : MonoBehaviour
         this.health += -(damageDelt);
         StartKnockBackEffect();
         GameObject healthObject = Instantiate(healthChangePrefab);
-        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD CANVAS").gameObject.transform, false);
         healthObject.transform.localScale = new Vector3(1, 1, 1);
         healthObject.GetComponent<HealthChangePrefab>().SetText(-damageDelt);
         healthObject.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
@@ -61,7 +61,7 @@ public class Character : MonoBehaviour
         this.health += -(damageDelt);
         StartKnockBackEffect();
         GameObject healthObject = Instantiate(healthChangePrefab);
-        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD CANVAS").gameObject.transform, false);
         healthObject.transform.localScale = new Vector3(1, 1, 1);
         healthObject.GetComponent<HealthChangePrefab>().SetText(-damageDelt);
         healthObject.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
@@ -73,7 +73,7 @@ public class Character : MonoBehaviour
         if (this.health > this.maxHealth) this.health = this.maxHealth;
 
         GameObject healthObject = Instantiate(healthChangePrefab);
-        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD Canvas").gameObject.transform, false);
+        healthObject.gameObject.transform.SetParent(GameObject.Find("HUD CANVAS").gameObject.transform, false);
         healthObject.transform.localScale = new Vector3(1, 1, 1);
         healthObject.GetComponent<HealthChangePrefab>().SetText(healthAmount);
         healthObject.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);

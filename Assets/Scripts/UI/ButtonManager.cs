@@ -38,6 +38,8 @@ public class ButtonManager : MonoBehaviour
     public GameObject battleManagerPrefab;
     public BattleManager _battleManager;
 
+    public int spellCastingNumber; // saved number for spell to cast on enemy
+
     private void Awake()
     {
         eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
@@ -199,9 +201,10 @@ public class ButtonManager : MonoBehaviour
         {
             if (menuButtonConstruct.menuScreenName == currentMenuScreen || menuButtonConstruct.secondaryMenuScreenName == currentMenuScreen && i < buttonLocations.Length)
             {
-                
+                Character currentTurnChar = _battleManager.currentTurnChar;
                 currentButtonConstructs[i] = menuButtonConstruct;
                 buttonLocations[i].gameObject.SetActive(true);
+                buttonLocations[i].interactable = true;
                 buttonLocations[i].GetComponent<TMP_Text>().text = menuButtonConstruct.menuButtonText;
                 buttonLocations[i].onClick.RemoveAllListeners();
                 buttonLocations[i].onClick.AddListener(delegate { SwitchButtonState(menuButtonConstruct.buttonTypeName); });
@@ -212,19 +215,22 @@ public class ButtonManager : MonoBehaviour
                 }
                 if (currentMenuScreen == MenuScreen.Magic)
                 {
-                    if (_battleManager.currentTurnChar.knownSpellsComponents[i].doesRequireTarget) buttonLocations[i].onClick.AddListener(delegate { DelegateSpell(); });
+                    if (currentTurnChar.knownSpellsComponents[i].doesRequireTarget)
+                    {
+                        spellCastingNumber = i;
+                        buttonLocations[i].onClick.AddListener(delegate { PickSpellTarget(); });
+                    }
                     else
                     {
                         int spellNum = i;
-                        buttonLocations[i].onClick.AddListener(delegate { CastSpell(_battleManager.currentTurnChar, spellNum); });
+                        buttonLocations[i].onClick.AddListener(delegate { CastSpell(currentTurnChar, spellNum); });
                     }
-
+                    if (currentTurnChar.mp < currentTurnChar.knownSpellsComponents[i].spellMPCost) buttonLocations[i].interactable = false;
                 }
                 if (currentMenuScreen == MenuScreen.PickingTarget)
                 {
-                    GameObject target = _battleManager.activeEnemies[i];
-                    int spellNum = i;
-                    buttonLocations[i].onClick.AddListener(delegate { CastSpell(_battleManager.currentTurnChar, spellNum, target.GetComponent<Character>()); });
+                    Character target = _battleManager.activeEnemies[i].GetComponent<Character>();
+                    buttonLocations[i].onClick.AddListener(delegate { CastSpell(currentTurnChar, spellCastingNumber, target); });
                 }
                 
                 i++;
@@ -333,7 +339,7 @@ public class ButtonManager : MonoBehaviour
     public void OnAttackClick(MenuButtonConstruct btnCon)
     {
         SwitchState(MenuScreen.Attack);
-        if (btnCon.firstClick)
+        if (listOfEnemyButtons.Count == 0)
         {
             for (int i = 0; i < _battleManager.activeEnemies.Length; i++)
             {
@@ -369,7 +375,7 @@ public class ButtonManager : MonoBehaviour
         SwitchButtonState(ButtonType.NoneSelected);
     }
 
-    public void DelegateSpell()
+    public void PickSpellTarget()
     {
         SwitchState(MenuScreen.PickingTarget);
         UpdateCurrentButtons();
@@ -388,7 +394,8 @@ public class ButtonManager : MonoBehaviour
         Debug.Log("CastSpell spellNum = " + spellNum);
         Debug.Log("Character: " + character.name + " Enemy Target: " + target.name);
         character.knownSpellsComponents[spellNum].SpellSelected(character, target);
-        // OnClickBack();
+        SwitchStateBack();
+        SwitchStateBack();
     }
     public void SetEnemyAttackButton(GameObject target)
     {

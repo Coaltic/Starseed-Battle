@@ -214,7 +214,7 @@ public class BattleMenuManager : MonoBehaviour
     public void OnMagicClick()
     {
         SwitchState(MenuState.Magic);
-        Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
+        Character currentTurnChar = _battleManager.currentTurnArray[_battleManager.currentTurnNumber];
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)

@@ -5,9 +5,9 @@ public class Player1 : Player
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        maxHealth = 2000;
+        maxHealth = 100;
         maxMP = 10;
-        strengthStat = 200;
+        strengthStat = 20;
         magicStat = 10;
         physicalDefenseStat = 20;
         magicDefenseStat = 10;

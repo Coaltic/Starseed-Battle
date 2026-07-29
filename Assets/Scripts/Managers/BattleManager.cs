@@ -92,7 +92,7 @@ public class BattleManager : MonoBehaviour
 
     public void InitializeBattleCharacters()
     {
-        enemySpawnNumber = Random.Range(7, 8); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
+        enemySpawnNumber = Random.Range(1, 9); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
 
         activeEnemies = new GameObject[(enemySpawnNumber)];
 
@@ -102,7 +102,7 @@ public class BattleManager : MonoBehaviour
             enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
 
             activeEnemies[i] = Instantiate(enemyPrefabs[enemyIDNumber]);
-            activeEnemies[i].name = i.ToString(); // activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName;
+            activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName;
             GameObject thisArrow = Instantiate(indicationArrowPrefab);
             thisArrow.transform.SetParent(activeEnemies[i].transform);
             thisArrow.transform.position = new Vector2(thisArrow.transform.position.x, thisArrow.transform.parent.GetComponentInChildren<SpriteRenderer>().bounds.size.y);
@@ -182,14 +182,11 @@ public class BattleManager : MonoBehaviour
 
         turnActionText.text = turnOrderList[currentTurnNumber].name + " Attacked " + target.name;
 
-        if (currentTurnChar.tag == "Player") Debug.Log("CALLING END OF TURN");
         EndOfTurn();
     }
 
     public void EndOfTurn()
     {
-        // _battleMenuManager.SwitchState(MenuState.Main);
-        if (currentTurnChar.tag == "Player") Debug.Log("END OF TURN");
         for (int i = 0; i < turnOrderList.Count; i++)
         {
             if (turnOrderList[i].GetComponent<Character>().health <= 0) DeathOfCharacter(turnOrderList[i].GetComponent<Character>());

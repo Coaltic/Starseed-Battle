@@ -67,10 +67,10 @@ public class BattleManager : MonoBehaviour
                     currentTurnChar.OnceATurn();
                     onceATurn = false;
                 }
-                
+
                 _buttonManager.EnableActiveMenuButtons();
             }
-            if (currentTurnChar.tag == "Enemy")
+            else
             {
                 _buttonManager.DisableActiveMenuButtons();
                 if (isAttackCooldownActive == false)
@@ -85,6 +85,7 @@ public class BattleManager : MonoBehaviour
             }
 
         }
+        else _buttonManager.DisableActiveMenuButtons();
 
 
     }
@@ -203,6 +204,10 @@ public class BattleManager : MonoBehaviour
 
     public void DeathOfCharacter(Character character)
     {
+        for (int c = 0; c < activeEnemies.Length; c++)
+            if (character == activeEnemies[c].GetComponent<Enemy>())
+                _buttonManager.listOfEnemyButtons.RemoveAt(c);
+
         int tempPlayerIncrement = 0;
         int tempEnemyIncrement = 0;
         if (character.turnOrder < currentTurnNumber) currentTurnNumber--;

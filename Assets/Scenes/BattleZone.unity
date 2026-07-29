@@ -9887,6 +9887,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3102050821971580490, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575536963015695939, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -15.999985
+      objectReference: {fileID: 0}
     - target: {fileID: 5351349697846922031, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9971,9 +9979,21 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6535512605252918799, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878474895742674816, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 7517000090722603880, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723612099981763809, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
       propertyPath: startButton
@@ -9991,6 +10011,126 @@ PrefabInstance:
       propertyPath: characterInfoPanelPrefab
       value: 
       objectReference: {fileID: 6109495567746941337, guid: d67cc5fb2178797449e2d821f91e7a7c, type: 3}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: currentButtonConstructs.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[0].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[1].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[2].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[3].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[4].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[5].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[6].firstClick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[0].buttonTypeName
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[0].menuButtonText
+      value: ATTACK
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[0].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[1].buttonTypeName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[1].menuButtonText
+      value: DEFEND
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[1].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[2].buttonTypeName
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[2].menuButtonText
+      value: MAGIC
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[2].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[3].buttonTypeName
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[3].menuButtonText
+      value: ITEM
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[3].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[4].buttonTypeName
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[4].menuButtonText
+      value: MOVE
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[4].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[5].buttonTypeName
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[5].menuButtonText
+      value: SWAP
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[5].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[6].buttonTypeName
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[6].menuButtonText
+      value: RUN AWAY
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116483298882829774, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
+      propertyPath: listOfMenuButtons.Array.data[6].menuScreenName
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8757129665553851375, guid: d40752d10ef61e6458a06a350c35123f, type: 3}
       propertyPath: m_Name
       value: HUD CANVAS

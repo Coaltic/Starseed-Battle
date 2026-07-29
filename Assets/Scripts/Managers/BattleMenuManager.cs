@@ -9,7 +9,7 @@ using TMPro;
 public class BattleMenuManager : MonoBehaviour
 {
     public MenuState previousMenuState;
-    public MenuState currentMenuState;
+    public MenuState currentMenuScreen;
     public GameObject startButton;
 
     public GameObject[] gameplayMenus;
@@ -24,7 +24,7 @@ public class BattleMenuManager : MonoBehaviour
     public bool isMenuDisabled;
 
     public List<GameObject> previousMenuScreensList = new List<GameObject>();
-    public List<MenuState> menuStateList;
+    public List<MenuState> menuScreenList;
 
     public GameObject BattleManager;
     public BattleManager _battleManager;
@@ -43,7 +43,7 @@ public class BattleMenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (currentMenuState)
+        switch (currentMenuScreen)
         {
 
             case MenuState.NotYourTurn:
@@ -93,13 +93,13 @@ public class BattleMenuManager : MonoBehaviour
 
     public void SwitchState(MenuState newState)
     {
-        currentMenuState = newState;
-        menuStateList.Add(currentMenuState);
+        currentMenuScreen = newState;
+        menuScreenList.Add(currentMenuScreen);
     }
 
     public void SwitchStateBack()
     {
-        currentMenuState = menuStateList[menuStateList.Count - 1];
+        currentMenuScreen = menuScreenList[menuScreenList.Count - 1];
     }
     public void OnClickStart(GameObject button)
     {
@@ -214,7 +214,7 @@ public class BattleMenuManager : MonoBehaviour
     public void OnMagicClick()
     {
         SwitchState(MenuState.Magic);
-        Character currentTurnChar = _battleManager.currentTurn[_battleManager.currentTurnNumber];
+        Character currentTurnChar = _battleManager.currentTurnArray[_battleManager.currentTurnNumber];
         for (int i = 0; i < gameplayMenus[2].gameObject.transform.childCount; i++)
         {
             if (i == 0)
@@ -334,7 +334,7 @@ public class BattleMenuManager : MonoBehaviour
 
     public void ChangeMenuScreenBack(GameObject newMenuScreen, GameObject previousMenuScreen)
     {
-        menuStateList.Remove(menuStateList[menuStateList.Count - 1]);
+        menuScreenList.Remove(menuScreenList[menuScreenList.Count - 1]);
         SwitchStateBack();
         previousMenuScreen.SetActive(false);
         newMenuScreen.SetActive(true);

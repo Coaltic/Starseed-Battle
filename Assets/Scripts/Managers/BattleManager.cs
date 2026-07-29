@@ -18,7 +18,7 @@ public class BattleManager : MonoBehaviour
     public GameObject indicationArrowPrefab;
 
     public List<GameObject> turnOrderList;
-    public Character[] currentTurn;
+    public Character[] currentTurnArray;
     public Character currentTurnChar;
     public int currentTurnNumber;
 
@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
     public bool onceATurn;
 
     public MoveableTileManager _tileManager;
-    public BattleMenuManager _battleMenuManager;
+    public ButtonManager _buttonManager;
 
     //private Random rng = new Random();
 
@@ -41,7 +41,7 @@ public class BattleManager : MonoBehaviour
         turnNumberText = GameObject.Find("Turn Number Text").gameObject.GetComponent<TMP_Text>();
         turnActionText = GameObject.Find("Turn Action Text").gameObject.GetComponent<TMP_Text>();
         _tileManager = this.GetComponent<MoveableTileManager>();
-        _battleMenuManager = GameObject.Find("GameManager/BattleMenuManager").gameObject.GetComponent<BattleMenuManager>();
+        _buttonManager = GameObject.Find("HUD CANVAS").gameObject.GetComponent<ButtonManager>();
         
     }
 
@@ -49,8 +49,8 @@ public class BattleManager : MonoBehaviour
     {
         InitializeBattleCharacters();
         SetBattleOrder();
-        _battleMenuManager.SetInfoPanels();
-        _battleMenuManager.SetIndicationArrows();
+        _buttonManager.SetInfoPanels();
+        _buttonManager.SetIndicationArrows();
     }
 
     // Update is called once per frame
@@ -58,8 +58,8 @@ public class BattleManager : MonoBehaviour
     {
         if (isBattleActive)
         {
-            if (currentTurnNumber >= currentTurn.Length) currentTurnNumber = 0;
-            currentTurnChar = currentTurn[currentTurnNumber];
+            if (currentTurnNumber >= currentTurnArray.Length) currentTurnNumber = 0;
+            currentTurnChar = currentTurnArray[currentTurnNumber];
             if (currentTurnChar.tag == "Player" && isAttackCooldownActive == false)
             {
                 if (onceATurn)
@@ -67,12 +67,12 @@ public class BattleManager : MonoBehaviour
                     currentTurnChar.OnceATurn();
                     onceATurn = false;
                 }
-                
-                _battleMenuManager.EnableActiveMenuButtons();
+
+                _buttonManager.EnableActiveMenuButtons();
             }
-            if (currentTurnChar.tag == "Enemy")
+            else
             {
-                _battleMenuManager.DisableActiveMenuButtons();
+                _buttonManager.DisableActiveMenuButtons();
                 if (isAttackCooldownActive == false)
                 {
                     currentTurnChar.GetComponent<Enemy>().PickAttack(activePlayers, this);
@@ -85,13 +85,14 @@ public class BattleManager : MonoBehaviour
             }
 
         }
+        else _buttonManager.DisableActiveMenuButtons();
 
 
     }
 
     public void InitializeBattleCharacters()
     {
-        enemySpawnNumber = Random.Range(4, 5); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
+        enemySpawnNumber = Random.Range(7, 8); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
 
         activeEnemies = new GameObject[(enemySpawnNumber)];
 
@@ -101,7 +102,7 @@ public class BattleManager : MonoBehaviour
             enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
 
             activeEnemies[i] = Instantiate(enemyPrefabs[enemyIDNumber]);
-            activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName;
+            activeEnemies[i].name = i.ToString(); // activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName;
             GameObject thisArrow = Instantiate(indicationArrowPrefab);
             thisArrow.transform.SetParent(activeEnemies[i].transform);
             thisArrow.transform.position = new Vector2(thisArrow.transform.position.x, thisArrow.transform.parent.GetComponentInChildren<SpriteRenderer>().bounds.size.y);
@@ -142,7 +143,7 @@ public class BattleManager : MonoBehaviour
             turnOrderList.Add(activePlayers[i]);
         }
 
-        currentTurn = new Character[turnOrderList.Count];
+        currentTurnArray = new Character[turnOrderList.Count];
         Shuffle(turnOrderList);
     }
 
@@ -167,7 +168,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < a.Count; i++)
         {
             a[i].GetComponent<Character>().turnOrder = i;
-            currentTurn[i] = a[i].GetComponent<Character>();
+            currentTurnArray[i] = a[i].GetComponent<Character>();
             Debug.Log("Turn #" + i + " " + a[i]);
         }
 
@@ -195,7 +196,7 @@ public class BattleManager : MonoBehaviour
         }
 
         isAttackCooldownActive = true;
-        if (currentTurnNumber == currentTurn.Length - 1) currentTurnNumber = 0;
+        if (currentTurnNumber == currentTurnArray.Length - 1) currentTurnNumber = 0;
         else currentTurnNumber++;
         turnNumberText.text = currentTurnNumber.ToString();
         onceATurn = true;
@@ -203,35 +204,59 @@ public class BattleManager : MonoBehaviour
 
     public void DeathOfCharacter(Character character)
     {
-        int tempPlayerIncrement = 0;
-        int tempEnemyIncrement = 0;
+        _buttonManager.listOfEnemyButtons.RemoveAt(System.Array.IndexOf(activeEnemies, character.gameObject));
         if (character.turnOrder < currentTurnNumber) currentTurnNumber--;
 
         if (character.tag == "Player") character.GetComponent<Player>().UpdateInfoBars();
         character.gameObject.SetActive(false);
         turnOrderList.Remove(character.gameObject);
-        if (character.tag == "Player") activePlayers = new GameObject[activePlayers.Length - 1];
-        if (character.tag == "Enemy") activeEnemies = new GameObject[activeEnemies.Length - 1];
-        currentTurn = new Character[turnOrderList.Count];
 
-        for (int i = 0; i < turnOrderList.Count; i++)
+        if (character.tag == "Enemy")
         {
-            if (turnOrderList[i].gameObject.tag == "Player")
+            GameObject[] tempArray = new GameObject[activeEnemies.Length - 1];
+            int tempint = 0;
+            for (int i = 0; i < tempArray.Length; i++)
             {
-                activePlayers[tempPlayerIncrement] = turnOrderList[i];
-                tempPlayerIncrement++;
+                if (character.gameObject == activeEnemies[i])
+                {
+                    tempint++;
+                    tempArray[i] = activeEnemies[i + tempint];
+                }
+                else tempArray[i] = activeEnemies[i + tempint];
             }
-            if (turnOrderList[i].gameObject.tag == "Enemy")
-            {
-                activeEnemies[tempEnemyIncrement] = turnOrderList[i];
-                tempEnemyIncrement++;
-            }
-            currentTurn[i] = turnOrderList[i].GetComponent<Character>();
-            currentTurn[i].turnOrder = i;
-            
+
+            activeEnemies = new GameObject[activeEnemies.Length - 1];
+            for (int i = 0; i < activeEnemies.Length; i++)
+                activeEnemies[i] = tempArray[i];
         }
 
-        _battleMenuManager.SetIndicationArrows();
+        if (character.tag == "Player")
+        {
+            GameObject[] tempArray = new GameObject[activePlayers.Length - 1];
+            int tempint = 0;
+            for (int i = 0; i < tempArray.Length; i++)
+            {
+                if (character.gameObject == activePlayers[i]) 
+                {
+                    tempint++;
+                    tempArray[i] = activePlayers[i + tempint];
+                }
+                else tempArray[i] = activePlayers[i + tempint];
+            }
+
+            activePlayers = new GameObject[activePlayers.Length - 1];
+            for (int i = 0; i < activeEnemies.Length; i++)
+                activePlayers[i] = tempArray[i];
+        }
+
+        currentTurnArray = new Character[turnOrderList.Count];
+        for (int i = 0; i < turnOrderList.Count; i++)
+        {
+            currentTurnArray[i] = turnOrderList[i].GetComponent<Character>();
+            currentTurnArray[i].turnOrder = i;   
+        }
+
+        _buttonManager.SetIndicationArrows();
 
         if (activeEnemies.Length == 0) BattleWon();
         if (activePlayers.Length == 0) BattleLost();

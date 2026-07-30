@@ -26,10 +26,12 @@ public class Enemy : Character
     public void PhysicalAttackPlayer(GameObject[] target, BattleManager _battleManager)
     {
         int rndAttackTarget = Random.Range(0, target.Length);
-        _battleManager.PhysicalAttack(target[rndAttackTarget].gameObject);
-        // _battleManager.turnActionText.text = this.characterName + " Attacked " + target[rndAttackTarget].name;
-        // Debug.Log(this.characterName + " Attacked " + target[rndAttackTarget].name);
-        // target[Random.Range(0, target.Length)].GetComponent<Character>();
+
+        target[rndAttackTarget].GetComponent<Character>().TakeDamage(this);
+
+        _battleManager.turnActionText.text = this.characterName + " Attacked " + target[rndAttackTarget].GetComponent<Character>().characterName;
+
+        _battleManager.EndOfTurn();
     }
 
     public void MagicAttackPlayer(GameObject[] target, BattleManager _battleManager)

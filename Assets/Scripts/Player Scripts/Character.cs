@@ -33,6 +33,8 @@ public class Character : MonoBehaviour
     public int knownSpellCount;
 
     public Character attackTarget;
+    public BattleManager _battleManager;
+    public ButtonManager _buttonManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -45,6 +47,8 @@ public class Character : MonoBehaviour
         if (this.mp < this.maxMP) mp++;
         if (isDefending) isDefending = false;
     }
+
+    
 
     public void TakeDamage(Character attacker)
     {

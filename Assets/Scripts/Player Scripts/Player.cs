@@ -6,9 +6,6 @@ public class Player : Character
 
     public int EXP;
 
-    public BattleManager _battleManager;
-    public ButtonManager _buttonManager;
-    
 
     public void PhysicalAttack()
     {

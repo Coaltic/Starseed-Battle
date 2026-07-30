@@ -32,6 +32,8 @@ public class Character : MonoBehaviour
     public SpellCatalogue _spellCatalogue;
     public int knownSpellCount;
 
+    public Character attackTarget;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -102,12 +104,12 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void StartKnockBackEffect()
+    public virtual void StartKnockBackEffect()
     {
         anim.SetBool("Knockback", true);
     }
 
-    public void EndKnockBackEffect()
+    public virtual void EndKnockBackEffect()
     {
         anim.SetBool("Knockback", false);
     }

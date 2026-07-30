@@ -6,8 +6,17 @@ public class Player : Character
 
     public int EXP;
 
-    private void Start()
+    public BattleManager _battleManager;
+    public ButtonManager _buttonManager;
+    
+
+    public void PhysicalAttack()
     {
+        attackTarget.GetComponent<Character>().TakeDamage(this);
+
+        _battleManager.turnActionText.text = _battleManager.currentTurnChar.characterName + " Attacked " + attackTarget.characterName;
+
+        _battleManager.EndOfTurn();
     }
 
     public void UpdateInfoBars()

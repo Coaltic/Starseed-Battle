@@ -399,9 +399,12 @@ public class ButtonManager : MonoBehaviour
     }
     public void SetEnemyAttackButton(GameObject target)
     {
-        _battleManager.PhysicalAttack(target);
+        // _battleManager.PhysicalAttack(target);
+        _battleManager.currentTurnChar.attackTarget = target.GetComponent<Character>();
+        _battleManager.currentTurnChar.anim.SetBool("Attacking", true);
         SwitchButtonState(ButtonType.NoneSelected);
         SwitchStateBack();
+        DisableActiveMenuButtons();
     }
 
     public void EnableActiveMenuButtons()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player1 : Player
+public class Rosemary : Player
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -24,6 +24,8 @@ public class Player1 : Player
 
     void Start()
     {
+        _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
+        _buttonManager = _battleManager._buttonManager;
         anim = GetComponent<Animator>();
         health = maxHealth;
         mp = maxMP;
@@ -38,8 +40,26 @@ public class Player1 : Player
         {
             UpdateInfoBars();
         }
+        if (health <= 0) { anim.SetBool("Dead", true); anim.SetBool("Alive", false); }
     }
 
-    
+    public override void StartKnockBackEffect()
+    {
+        anim.SetTrigger("Take Damage");
+    }
 
+    public override void EndKnockBackEffect()
+    {
+        // anim.SetBool("Knockback", false);
+    }
+
+    public void EndAttackAnimation()
+    {
+        anim.SetBool("Attacking", false);
+    }
+
+    public void DisableMenu()
+    {
+        _buttonManager.DisableActiveMenuButtons();
+    }
 }

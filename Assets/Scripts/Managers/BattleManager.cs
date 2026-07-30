@@ -65,10 +65,11 @@ public class BattleManager : MonoBehaviour
                 if (onceATurn)
                 {
                     currentTurnChar.OnceATurn();
+                    _buttonManager.EnableActiveMenuButtons();
                     onceATurn = false;
                 }
 
-                _buttonManager.EnableActiveMenuButtons();
+                
             }
             else
             {
@@ -169,7 +170,7 @@ public class BattleManager : MonoBehaviour
         {
             a[i].GetComponent<Character>().turnOrder = i;
             currentTurnArray[i] = a[i].GetComponent<Character>();
-            Debug.Log("Turn #" + i + " " + a[i]);
+            // Debug.Log("Turn #" + i + " " + a[i]);
         }
 
         isBattleActive = true;
@@ -201,11 +202,11 @@ public class BattleManager : MonoBehaviour
 
     public void DeathOfCharacter(Character character)
     {
-        _buttonManager.listOfEnemyButtons.RemoveAt(System.Array.IndexOf(activeEnemies, character.gameObject));
+        if (character.tag == "Enemy") _buttonManager.listOfEnemyButtons.RemoveAt(System.Array.IndexOf(activeEnemies, character.gameObject));
         if (character.turnOrder < currentTurnNumber) currentTurnNumber--;
 
         if (character.tag == "Player") character.GetComponent<Player>().UpdateInfoBars();
-        character.gameObject.SetActive(false);
+        if (character.tag == "Enemy") character.gameObject.SetActive(false);
         turnOrderList.Remove(character.gameObject);
 
         if (character.tag == "Enemy")
@@ -242,7 +243,7 @@ public class BattleManager : MonoBehaviour
             }
 
             activePlayers = new GameObject[activePlayers.Length - 1];
-            for (int i = 0; i < activeEnemies.Length; i++)
+            for (int i = 0; i < activePlayers.Length; i++)
                 activePlayers[i] = tempArray[i];
         }
 

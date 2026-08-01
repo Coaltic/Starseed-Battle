@@ -51,6 +51,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 2428202694349917098, guid: 24f28cf6a985683489d727f0baf97be3, type: 3}
   - {fileID: 7727645156677861377, guid: 0fab85c324b64b3439a86d1491d2a89c, type: 3}
+  - {fileID: 5851925791100647547, guid: 5aefaa126660cd245a5341085eb6f0af, type: 3}
   playerPrefabs:
   - {fileID: 1539688273525912107, guid: e799ab4f5d98c7544b8119c0cedfc7e1, type: 3}
   activePlayers: []

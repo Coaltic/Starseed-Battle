@@ -93,14 +93,15 @@ public class BattleManager : MonoBehaviour
 
     public void InitializeBattleCharacters()
     {
-        enemySpawnNumber = Random.Range(1, 9); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
+        enemySpawnNumber = Random.Range(1, 4); // Random.Range(1, _tileManager.enemyTiles.Length + 1);
 
         activeEnemies = new GameObject[(enemySpawnNumber)];
 
 
         for (int i = 0; i < enemySpawnNumber; i++)
         {
-            enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
+            if (i != 0) enemyIDNumber = Random.Range(0, enemyPrefabs.Length);
+            else enemyIDNumber = 2;
 
             activeEnemies[i] = Instantiate(enemyPrefabs[enemyIDNumber]);
             activeEnemies[i].name = activeEnemies[i].GetComponent<Enemy>().characterName;
@@ -206,7 +207,7 @@ public class BattleManager : MonoBehaviour
         if (character.turnOrder < currentTurnNumber) currentTurnNumber--;
 
         if (character.tag == "Player") character.GetComponent<Player>().UpdateInfoBars();
-        if (character.tag == "Enemy") character.gameObject.SetActive(false);
+        if (character.tag == "Enemy" && character.characterName != "Catnolli") character.gameObject.SetActive(false);
         turnOrderList.Remove(character.gameObject);
 
         if (character.tag == "Enemy")

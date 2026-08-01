@@ -7,6 +7,9 @@ public class Enemy : Character
     {
         anim = GetComponent<Animator>();
         if (anim == null) anim = GetComponentInChildren<Animator>();
+
+        _battleManager = GameObject.Find("BattleManager(Clone)").GetComponent<BattleManager>();
+        _buttonManager = _battleManager._buttonManager;
     }
 
     // Update is called once per frame
@@ -19,8 +22,10 @@ public class Enemy : Character
     {
         int rndAttack = Random.Range(0, 1);
 
-        if (rndAttack == 0) PhysicalAttackPlayer(target, _battleManager);
-        if (rndAttack == 1) MagicAttackPlayer(target, _battleManager);
+        if (rndAttack == 0 && this.characterName != "Catnolli") PhysicalAttackPlayer(target, _battleManager);
+        else anim.SetBool("Attacking", true);
+
+        // if (rndAttack == 1) MagicAttackPlayer(target, _battleManager);
     }
 
     public void PhysicalAttackPlayer(GameObject[] target, BattleManager _battleManager)
@@ -30,6 +35,17 @@ public class Enemy : Character
         target[rndAttackTarget].GetComponent<Character>().TakeDamage(this);
 
         _battleManager.turnActionText.text = this.characterName + " Attacked " + target[rndAttackTarget].GetComponent<Character>().characterName;
+
+        _battleManager.EndOfTurn();
+    }
+
+    public void AttackPlayer()
+    {
+        int rndAttackTarget = Random.Range(0, _battleManager.activePlayers.Length);
+
+        _battleManager.activePlayers[rndAttackTarget].GetComponent<Character>().TakeDamage(this);
+
+        _battleManager.turnActionText.text = this.characterName + " Attacked " + _battleManager.activePlayers[rndAttackTarget].GetComponent<Character>().characterName;
 
         _battleManager.EndOfTurn();
     }
